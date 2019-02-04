@@ -12,18 +12,22 @@ nqp::speshreg('perl6', 'privmeth', -> $obj, str $name {
 # A resolution like `self.Foo::bar()` can have the resolution specialized. We
 # fall back to the dispatch:<::> if there is an exception that'd need to be
 # thrown.
-nqp::speshreg('perl6', 'qualmeth', -> $obj, str $name, $type {
+nqp::speshreg('perl6', 'qualmeth', -> $obj, str $name, $type, $package {
+    nqp::say("spesh::qualmeth(" ~ $name ~ ", " ~ $type.HOW.name($type) ~ " on " ~ $package.HOW.name($package) ~ ")");
+    nqp::say("spesh::qualmeth obj: " ~ $obj.HOW.name($obj));
     nqp::speshguardtype($obj, $obj.WHAT);
     if nqp::istype($obj, $type) {
         # Resolve to the correct qualified method.
         nqp::speshguardtype($type, $type.WHAT);
-        $obj.HOW.find_method_qualified($obj, $type, $name)
+        nqp::speshguardtype($package, $package.WHAT);
+        nqp::say("spesh -> find_method_qualified");
+        $obj.HOW.find_method_qualified($package, $type, $name)
     }
     else {
         # We'll throw an exception; return a thunk that will delegate to the
         # slow path implementation to do the throwing.
         -> $inv, *@pos, *%named {
-            $inv.'dispatch:<::>'($name, $type, |@pos, |%named)
+            $inv.'dispatch:<::>'($name, $type, $package, |@pos, |%named)
         }
     }
 });

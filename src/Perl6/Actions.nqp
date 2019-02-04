@@ -5991,6 +5991,7 @@ class Perl6::Actions is HLL::Actions does STDActions {
             $name := @parts.pop;
             wantall($past, 'methodop/longname');
             if +@parts {
+                $past.unshift(QAST::WVal.new( :value($*PACKAGE) ));
                 my int $found_wval := 0;
                 try {
                     my $sym := $*W.find_symbol(@parts);

@@ -120,7 +120,7 @@ my class Regex { # declared in BOOTSTRAP
         nqp::ifnull($!source,'')
     }
 
-    method clone(Mu :$topic is raw, Mu :$slash is raw --> Regex) {
+    method clone(Mu :$topic is raw, Mu :$slash is raw, |c --> Regex) {
         nqp::p6bindattrinvres(
             nqp::p6bindattrinvres(self.Method::clone, Regex, '$!topic', $topic),
             Regex, '$!slash', $slash)

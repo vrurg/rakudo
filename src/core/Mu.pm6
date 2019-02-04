@@ -785,7 +785,7 @@ Perhaps it can be found at https://docs.perl6.org/type/$name"
         $var(SELF, |c)
     }
 
-    method dispatch:<::>(Mu \SELF: $name, Mu $type, |c) is raw {
+    method dispatch:<::>(Mu \SELF: $name, Mu $type, Mu $package, |c) is raw {
         unless nqp::istype(SELF, $type) {
             X::Method::InvalidQualifier.new(
                     method          => $name,
@@ -794,7 +794,8 @@ Perhaps it can be found at https://docs.perl6.org/type/$name"
 
             ).throw;
         }
-        self.^find_method_qualified($type, $name)(SELF, |c)
+        say "Mu dispatch:<::>( $name ) on ", self.^name;
+        $package.HOW.find_method_qualified($package, $type, $name)(SELF, |c)
     }
 
     method dispatch:<!>(Mu \SELF: \name, Mu \type, |c) is raw {

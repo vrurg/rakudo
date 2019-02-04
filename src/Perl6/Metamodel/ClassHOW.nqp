@@ -250,7 +250,15 @@ class Perl6::Metamodel::ClassHOW
     }
 
     method concretization($obj, $ptype) {
+        my $obj_dc := nqp::decont($obj);
+        my $ptype_dc := nqp::decont($ptype);
+        my $decl_dc := nqp::decont($*DECLARAND);
+        nqp::say( "Looking for " ~ $ptype_dc.HOW.name($ptype_dc) ~ " on " ~ $obj_dc.HOW.name($obj_dc) );
+        nqp::say( "DECLARAND: " ~ $decl_dc.HOW.name($decl_dc));
+        nqp::say( "Conc count: " ~ nqp::elems(@!concretizations) );
         for @!concretizations {
+            my $t_dc := nqp::decont($_[0]);
+            nqp::say("Comparing to " ~ $t_dc.HOW.name($t_dc));
             if nqp::decont($_[0]) =:= nqp::decont($ptype) {
                 return $_[1];
             }

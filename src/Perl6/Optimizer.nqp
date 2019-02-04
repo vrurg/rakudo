@@ -2396,6 +2396,7 @@ class Perl6::Optimizer {
         if nqp::istype($name_node, QAST::Want) && $name_node[1] eq 'Ss' {
             $name_node := $name_node[2];
         }
+        nqp::say("Not optimizing " ~ $name_node.value.HOW.name($name_node.value)) unless nqp::istype($name_node, QAST::SVal);
         return $op unless nqp::istype($name_node, QAST::SVal);
 
         # We need to evaluate the invocant only once, so will bind it into
@@ -2403,10 +2404,17 @@ class Perl6::Optimizer {
         my $inv := $op.shift;
         my $name := $op.shift;
         my $type := $op.shift;
+        my $package := $op.shift;
+
+        my $qtype := $type.value;
+        my $qpackage := $package.value;
+        nqp::say("Optimizing qualified method " ~ $name[2].value ~ ", qtype: " ~ $qtype.HOW.name($qtype) ~ " on " ~ $qpackage.HOW.name($qpackage));
+
         my @args;
         while $op.list {
             nqp::push(@args, $op.shift);
         }
+        nqp::say("ARGS: " ~ +@args);
         my $temp := QAST::Node.unique('inv_once');
         $op.op('stmts');
         $op.push(QAST::Op.new(
@@ -2421,7 +2429,8 @@ class Perl6::Optimizer {
                 QAST::SVal.new( :value('qualmeth') ),
                 QAST::Var.new( :name($temp), :scope('local') ),
                 $name,
-                $type
+                $type,
+                $package
             ),
             QAST::Var.new( :name($temp), :scope('local') ),
             |@args
