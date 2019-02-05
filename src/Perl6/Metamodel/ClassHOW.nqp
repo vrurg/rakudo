@@ -250,11 +250,7 @@ class Perl6::Metamodel::ClassHOW
     }
 
     method concretization($obj, $ptype) {
-        my $obj_dc := nqp::decont($obj);
-        my $ptype_dc := nqp::decont($ptype);
-        my $decl_dc := nqp::decont($*DECLARAND);
         for @!concretizations {
-            my $t_dc := nqp::decont($_[0]);
             if nqp::decont($_[0]) =:= nqp::decont($ptype) {
                 return $_[1];
             }

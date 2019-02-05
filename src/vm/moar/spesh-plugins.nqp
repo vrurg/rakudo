@@ -14,7 +14,7 @@ nqp::speshreg('perl6', 'privmeth', -> $obj, str $name {
 # thrown.
 nqp::speshreg('perl6', 'qualmeth', -> $obj, str $name, $type, $package {
     nqp::speshguardtype($obj, $obj.WHAT);
-    if nqp::istype($obj, $type) {
+    if nqp::istype($package, $type) {
         # Resolve to the correct qualified method.
         nqp::speshguardtype($type, $type.WHAT);
         nqp::speshguardtype($package, $package.WHAT);
