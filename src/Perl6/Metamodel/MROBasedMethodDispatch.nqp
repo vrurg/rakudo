@@ -25,17 +25,14 @@ role Perl6::Metamodel::MROBasedMethodDispatch {
     }
 
     method find_method_qualified($obj, $qtype, $name) {
-        nqp::say("find_method_qualified(" ~ $name ~ " in " ~ $qtype.HOW.name($qtype) ~ ") on self: " ~ self.HOW.name(self) ~ " obj: " ~ $obj.HOW.name($obj));
         if $qtype.HOW.archetypes.parametric && nqp::can(self, 'concretization') {
             # Resolve it via the concrete form of this parametric.
             my $conc := self.concretization($obj, $qtype);
-            nqp::say("Concretization: " ~ $conc.HOW.name($conc));
             nqp::hllize($conc.HOW.method_table($conc)){$name}
         }
         else {
             # Non-parametric, so just locate it from the already concrete
             # type (or fallback to this if no .concretization on ourself).
-            nqp::say("Pass to nqp::findmethod");
             nqp::findmethod($qtype, $name)
         }
     }

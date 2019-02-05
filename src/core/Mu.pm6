@@ -794,7 +794,6 @@ Perhaps it can be found at https://docs.perl6.org/type/$name"
 
             ).throw;
         }
-        say "Mu dispatch:<::>( $name ) on ", self.^name;
         $package.HOW.find_method_qualified($package, $type, $name)(SELF, |c)
     }
 

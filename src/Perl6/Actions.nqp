@@ -5991,7 +5991,11 @@ class Perl6::Actions is HLL::Actions does STDActions {
             $name := @parts.pop;
             wantall($past, 'methodop/longname');
             if +@parts {
-                $past.unshift(QAST::WVal.new( :value($*PACKAGE) ));
+                # Pass the current package (which would be a class or a role) to the dispatch:<::> method in order to
+                # correctly qualify the target class or role.
+                # With a private method call qualification is done by checking trust relations, thus the current package
+                # is not used.
+                $past.unshift(QAST::WVal.new( :value($*PACKAGE) )) unless $*IN_PRIVOP;
                 my int $found_wval := 0;
                 try {
                     my $sym := $*W.find_symbol(@parts);

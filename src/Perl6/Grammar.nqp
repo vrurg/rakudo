@@ -3843,11 +3843,12 @@ grammar Perl6::Grammar is HLL::Grammar does STD {
     }
 
     token privop {
-        '!' <methodop>
+        '!' <methodop(1)>
         <O(|%methodcall)>
     }
 
-    token methodop {
+    token methodop($is_private = 0) {
+        :my $*IN_PRIVOP := $is_private;
         [
         | <longname> { if $<longname> eq '::' { self.malformed("class-qualified postfix call") } }
         | <?[$@&]> <variable> { self.check_variable($<variable>) }

@@ -13,15 +13,12 @@ nqp::speshreg('perl6', 'privmeth', -> $obj, str $name {
 # fall back to the dispatch:<::> if there is an exception that'd need to be
 # thrown.
 nqp::speshreg('perl6', 'qualmeth', -> $obj, str $name, $type, $package {
-    nqp::say("spesh::qualmeth(" ~ $name ~ ", " ~ $type.HOW.name($type) ~ " on " ~ $package.HOW.name($package) ~ ")");
-    nqp::say("spesh::qualmeth obj: " ~ $obj.HOW.name($obj));
     nqp::speshguardtype($obj, $obj.WHAT);
     if nqp::istype($obj, $type) {
         # Resolve to the correct qualified method.
         nqp::speshguardtype($type, $type.WHAT);
         nqp::speshguardtype($package, $package.WHAT);
-        nqp::say("spesh -> find_method_qualified");
-        $obj.HOW.find_method_qualified($package, $type, $name)
+        $package.HOW.find_method_qualified($package, $type, $name)
     }
     else {
         # We'll throw an exception; return a thunk that will delegate to the
