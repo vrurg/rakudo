@@ -20,7 +20,7 @@ role Perl6::Metamodel::MethodContainer {
             my $mtype := try { nqp::lc($code_obj.HOW.name($code_obj)) } // 'method';
             # XXX The following two lines cause infite loop by re-routing exception from nqp::die back to the try block
             # in nqp::say parameters!
-            # nqp::say("code_obj name:" ~ (try { nqp::lc($code_obj.HOW.name($code_obj)) } // 'method'));
+            # nqp::say("code_obj name:" ~ (try { nqp::lc("AString") } // 'method'));
             # nqp::die("\n*** Duplicate method «$name» ***\n");
             nqp::die("Package '"
               ~ self.name($obj)
