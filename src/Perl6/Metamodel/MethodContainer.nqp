@@ -19,10 +19,15 @@ role Perl6::Metamodel::MethodContainer {
         $code_obj := nqp::decont($code_obj);
         $name := nqp::decont_s($name);
         if nqp::existskey(%!methods, $name) || nqp::existskey(%!submethods, $name) {
+            my $mtype := try { nqp::lc($code_obj.HOW.name($code_obj)) } // 'method';
+            # XXX The following two lines cause infite loop by re-routing exception from nqp::die back to the try block
+            # in nqp::say parameters!
+            # nqp::say("code_obj name:" ~ (try { nqp::lc($code_obj.HOW.name($code_obj)) } // 'method'));
+            # nqp::die("\n*** Duplicate method «$name» ***\n");
             nqp::die("Package '"
               ~ self.name($obj)
               ~ "' already has a "
-              ~ (try { nqp::lc($code_obj.HOW.name($code_obj)) } // 'method')
+              ~ $mtype
               ~ " '"
               ~ $name
               ~ "' (did you mean to declare a multi-method?)");
