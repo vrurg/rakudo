@@ -90,4 +90,9 @@ role Perl6::Metamodel::MultipleInheritance {
     method set_hidden($obj) {
         $!hidden := 1;
     }
+
+    # For internal use only.
+    method add_hides($type_obj) {
+        nqp::push(@!hides, $type_obj);
+    }
 }
