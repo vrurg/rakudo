@@ -176,6 +176,7 @@ class Perl6::Metamodel::ParametricRoleHOW
     method specialize_with($obj, $type_env, @pos_args) {
         # Create a concrete role.
         my $conc := $concrete.new_type(:roles([$obj]), :name(self.name($obj)));
+        $conc.HOW.set_hidden($obj) if self.hidden($obj);
 
         # Go through attributes, reifying as needed and adding to
         # the concrete role.
@@ -222,6 +223,10 @@ class Perl6::Metamodel::ParametricRoleHOW
                 $p := $p.HOW.instantiate_generic($p, $type_env);
             }
             $conc.HOW.add_parent($conc, $p);
+        }
+
+        for self.hides($obj) {
+            $conc.add_hides($_);
         }
 
         # Resolve any array type being passed along (only really used in the
