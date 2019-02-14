@@ -68,11 +68,11 @@ role Perl6::Metamodel::BUILDPLAN {
             }
         }
 
-        # Does it have its own BUILD?
-        my $build := $obj.HOW.find_method($obj, 'BUILD', :no_fallback(1));
-        if !nqp::isnull($build) && $build {
-            # We'll call the custom one.
-            nqp::push(@plan,$build);
+        my @builds := self.local_submethods($obj, 'BUILD');
+        if +@builds {
+            for @builds {
+                nqp::push(@plan, $_);
+            }
         }
         else {
             # No custom BUILD. Rather than having an actual BUILD
@@ -133,9 +133,13 @@ role Perl6::Metamodel::BUILDPLAN {
         }
 
         # Does it have a TWEAK?
-        my $TWEAK := $obj.HOW.find_method($obj, 'TWEAK', :no_fallback(1));
-        if !nqp::isnull($TWEAK) && $TWEAK {
-            nqp::push(@plan,$TWEAK);
+        # my $TWEAK := $obj.HOW.find_method($obj, 'TWEAK', :no_fallback(1));
+        # if !nqp::isnull($TWEAK) && $TWEAK {
+        #     nqp::push(@plan,$TWEAK);
+        # }
+        my @tweaks := self.local_submethods($obj, 'TWEAK');
+        for @tweaks {
+            nqp::push(@plan, $_);
         }
 
         # Something in the buildplan of this class
@@ -189,5 +193,42 @@ role Perl6::Metamodel::BUILDPLAN {
 
     method BUILDALLPLAN($obj) {
         @!BUILDALLPLAN
+    }
+
+    # Submethods of the given name defined in both $obj and its roles.
+    method local_submethods($obj, $name, :$reverse = 1) {
+        my @submethods;
+        # Reverse is the most used requirement. We will revert the list later if necessary if straight order is requested.
+        if nqp::can($obj.HOW, 'roles') {
+            nqp::say("local submethods on roles") if nqp::getenvhash<RAKUDO_DEBUG>;
+            my @roles := $obj.HOW.roles($obj, :local, :transitive);
+            my $i := +@roles;
+            while --$i >= 0 {
+                nqp::say("asking for concretization of " ~ @roles[$i].HOW.name(@roles[$i]) ~ " of " ~ @roles[$i].HOW.HOW.name(@roles[$i].HOW)) if nqp::getenvhash<RAKUDO_DEBUG>;
+                my $conc := $obj.HOW.concretization($obj, @roles[$i], :local, :transitive);
+                nqp::say("can submethod_table?") if nqp::getenvhash<RAKUDO_DEBUG>;
+                if nqp::can($conc.HOW, 'submethod_table') {
+                    my %submethods := $conc.HOW.submethod_table($conc);
+                    if nqp::existskey(%submethods, $name) {
+                        my $submethod := nqp::atkey(%submethods, $name);
+                        nqp::push(@submethods, $submethod) if $submethod;
+                    }
+                }
+            }
+            nqp::say("local submethods on roles finished") if nqp::getenvhash<RAKUDO_DEBUG>;
+        }
+        my $submethod := $obj.HOW.find_method($obj, $name, :no_fallback(1));
+        if !nqp::isnull($submethod) && $submethod {
+            nqp::push(@submethods,$submethod);
+        }
+        unless $reverse {
+            my @straight;
+            my $i := +@submethods;
+            while --$i >= 0 {
+                nqp::push(@straight, @submethods[$i]);
+            }
+            return @straight;
+        }
+        @submethods
     }
 }

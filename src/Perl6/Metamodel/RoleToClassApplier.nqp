@@ -102,12 +102,11 @@ my class RoleToClassApplier {
         my @stubs;
 
         # Compose in any methods.
-        sub compose_method_table(@methods, @method_names) {
-            my $method_iterator := nqp::iterator(@methods);
-            for @method_names -> str $name {
-                my $method := nqp::shift($method_iterator);
+        sub compose_method_table(%methods) {
+            for %methods {
+                my $name := $_.key;
                 my $yada := 0;
-                try { $yada := $method.yada }
+                try { $yada := $_.value.yada }
                 if $yada {
                     unless has_method($target, $name, 0)
                             || has_public_attribute($target, $name) {
@@ -123,25 +122,18 @@ my class RoleToClassApplier {
                     }
                 }
                 elsif !has_method($target, $name, 1) {
-                    $target.HOW.add_method($target, $name, $method);
+                    $target.HOW.add_method($target, $name, $_.value);
                 }
             }
         }
-        my @methods      := $to_compose_meta.method_order($to_compose);
-        my @method_names := $to_compose_meta.method_names($to_compose);
-        compose_method_table(
-            nqp::hllize(@methods),
-            nqp::hllize(@method_names),
-        );
+        compose_method_table(nqp::hllize($to_compose_meta.method_table($to_compose)));
+        # compose_method_table(nqp::hllize($to_compose_meta.submethod_table($to_compose)))
+        #     if nqp::can($to_compose_meta, 'submethod_table');
         if nqp::can($to_compose_meta, 'private_method_table') {
-            my @private_methods      := nqp::hllize($to_compose_meta.private_methods($to_compose));
-            my @private_method_names := nqp::hllize($to_compose_meta.private_method_names($to_compose));
-            my $i := 0;
-            for @private_method_names -> str $name {
-                unless has_private_method($target, $name) {
-                    $target.HOW.add_private_method($target, $name, @private_methods[$i]);
+            for nqp::hllize($to_compose_meta.private_method_table($to_compose)) {
+                unless has_private_method($target, $_.key) {
+                    $target.HOW.add_private_method($target, $_.key, $_.value);
                 }
-                $i++;
             }
         }
 
