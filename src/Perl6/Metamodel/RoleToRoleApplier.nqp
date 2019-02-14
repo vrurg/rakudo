@@ -43,8 +43,8 @@ my class RoleToRoleApplier {
                 }
             }
             build_meth_info(nqp::hllize($_.HOW.method_table($_)), %meth_info, %meth_providers);
-            build_meth_info(nqp::hllize($_.HOW.submethod_table($_)), %meth_info, %meth_providers)
-                if nqp::can($_.HOW, 'submethod_table');
+            # build_meth_info(nqp::hllize($_.HOW.submethod_table($_)), %meth_info, %meth_providers)
+            #     if nqp::can($_.HOW, 'submethod_table');
             build_meth_info(nqp::hllize($_.HOW.private_method_table($_)), %priv_meth_info, %priv_meth_providers)
                 if nqp::can($_.HOW, 'private_method_table');
         }

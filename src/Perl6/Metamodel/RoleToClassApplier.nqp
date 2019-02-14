@@ -127,8 +127,8 @@ my class RoleToClassApplier {
             }
         }
         compose_method_table(nqp::hllize($to_compose_meta.method_table($to_compose)));
-        compose_method_table(nqp::hllize($to_compose_meta.submethod_table($to_compose)))
-            if nqp::can($to_compose_meta, 'submethod_table');
+        # compose_method_table(nqp::hllize($to_compose_meta.submethod_table($to_compose)))
+        #     if nqp::can($to_compose_meta, 'submethod_table');
         if nqp::can($to_compose_meta, 'private_method_table') {
             for nqp::hllize($to_compose_meta.private_method_table($to_compose)) {
                 unless has_private_method($target, $_.key) {

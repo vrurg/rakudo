@@ -107,11 +107,11 @@ class Perl6::Metamodel::EnumHOW
         my @roles_to_compose := self.roles_to_compose($obj);
         if @roles_to_compose {
             my @ins_roles;
-            while @roles_to_compose {
-                my $r := @roles_to_compose.pop();
+            for @roles_to_compose -> $r {
                 @!role_typecheck_list[+@!role_typecheck_list] := $r;
                 @ins_roles.push($r.HOW.specialize($r, $obj))
             }
+            nqp::setelems(@roles_to_compose, 0);
             RoleToClassApplier.apply($obj, @ins_roles);
 
             # Add them to the typecheck list, and pull in their

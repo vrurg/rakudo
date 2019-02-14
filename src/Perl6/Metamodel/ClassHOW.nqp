@@ -92,15 +92,15 @@ class Perl6::Metamodel::ClassHOW
         my @stubs;
         if @roles_to_compose {
             my @ins_roles;
-            while @roles_to_compose {
-                my $r := @roles_to_compose.pop();
+            for @roles_to_compose -> $r {
                 @!roles[+@!roles] := $r;
                 @!role_typecheck_list[+@!role_typecheck_list] := $r;
                 my $ins := $r.HOW.specialize($r, $obj);
                 @ins_roles.push($ins);
                 self.add_concretization($obj, $r, $ins);
             }
-            self.compute_mro($obj); # to the best of our knowledge, because the role applier wants it.
+            nqp::setelems(@roles_to_compose, 0);
+            self.compute_mro($obj, :with_roles(0)); # to the best of our knowledge, because the role applier wants it.
             @stubs := RoleToClassApplier.apply($obj, @ins_roles);
 
             # Add them to the typecheck list, and pull in their
