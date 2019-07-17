@@ -1,2 +1,12 @@
 src/core.e/core_prologue.pm6
+src/core.e/QuantHash.pm6
+src/core.e/Baggy.pm6
+src/core.e/Mixy.pm6
+src/core.e/Setty.pm6
 src/core.e/PseudoStash.pm6
+src/core.e/Bag.pm6
+src/core.e/Mix.pm6
+src/core.e/Set.pm6
+src/core.e/SetHash.pm6
+src/core.e/MixHash.pm6
+src/core.e/BagHash.pm6
