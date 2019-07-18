@@ -567,7 +567,8 @@ class Perl6::World is HLL::World {
     # NOTE: Revision .c has special meaning because it doesn't have own dedicated CORE setting and serves as the base
     # for all other revisions.
     method load-lang-ver($ver-match, $comp) {
-        if $*INSIDE-EVAL {
+        if $*INSIDE-EVAL && !$*EVAL-AS-UNIT {
+            note("EVAL is not as unit") if nqp::getenvhash<RAKUDO_DEBUG>;
             # XXX Calling typed_panic is the desirable behavior. But it breaks some code. Just ignore version change for
             # now.
             # TODO? EVAL might get :unit parameter and simulate unit compilation.
@@ -690,7 +691,8 @@ class Perl6::World is HLL::World {
     }
 
     method comp_unit_stage1 ($/) {
-        unless $!have_outer {
+        note("STAGE1: in eval? ", $*INSIDE-EVAL, " as unit? ", $*EVAL-AS-UNIT) if nqp::getenvhash<RAKUDO_DEBUG>;
+        unless $*INSIDE-EVAL && !$*EVAL-AS-UNIT {
             self.load_setting($/, $!setting_name);
         }
         $/.unitstart();
@@ -929,9 +931,14 @@ class Perl6::World is HLL::World {
     # Loads a setting.
     method load_setting($/, $setting_name) {
         # We don't load setting for EVAL
-        if $*INSIDE-EVAL {
+        my $inside-eval := try { nqp::getlexdyn('$*INSIDE-EVAL') } ?? "YES" !! "NO";
+        my $eval-as-unit := try { nqp::getlexdyn('$*EVAL-AS-UNIT') } ?? "YES" !! "NO";
+        note("load_setting: INSIDE_EVAL: ", $inside-eval, " as unit? ", $eval-as-unit) if nqp::getenvhash<RAKUDO_DEBUG>;
+        if $*INSIDE-EVAL && !$*EVAL-AS-UNIT {
+            note("SKIPPING CORE LOAD") if nqp::getenvhash<RAKUDO_DEBUG>;
             return
         }
+        note("loading setting: ", $setting_name) if nqp::getenvhash<RAKUDO_DEBUG>;
         # Do nothing for the NULL setting.
         if $setting_name ne 'NULL' {
             # XXX TODO: see https://github.com/rakudo/rakudo/issues/2432
@@ -4794,6 +4801,7 @@ class Perl6::World is HLL::World {
     }
 
     method find_symbol_in_setting(@name) {
+        note("LOOKIN IN SETTING for ", nqp::join("::", @name)) if nqp::getenvhash<RAKUDO_DEBUG>;
         my str $fullname := nqp::join("::", @name);
         my $setting_name := Perl6::ModuleLoader.transform_setting_name($!setting_name);
         my $ctx := Perl6::ModuleLoader.load_setting($setting_name);

@@ -33,6 +33,7 @@ proto sub EVAL(
   PseudoStash :$context,
   Str()       :$filename = Str,
   Bool()      :$check = False,
+  Bool()      :$unit = False,
   *%_
 ) {
     die "EVAL() in Perl 6 is intended to evaluate strings, did you mean 'try'?"
@@ -42,18 +43,18 @@ proto sub EVAL(
     # Create a new compiler and initialize it from the current compiler object. This should make it easier to get rid of
     # compilation lock below when all underlying components become thread-safe. For now this would serve for protecting
     # internals of the current compiler from been altered by EVALed code.
-    my $compiler := $cur-compiler.WHAT.new();
-    with $cur-compiler {
-        $compiler.parsegrammar: .parsegrammar;
-        $compiler.parseactions: .parseactions;
-        $compiler.addstage:     'syntaxcheck', :before<ast>;
-        $compiler.addstage:     'optimize', :after<ast>;
-        for .config.keys -> $k {
-            $compiler.config{$k} = .config{$k}
-        }
-    }
-    nqp::bindhllsym('perl6', '$COMPILER_CONFIG', $compiler.config);
-    LEAVE nqp::bindhllsym('perl6', '$COMPILER_CONFIG', $cur-compiler.config);
+    my $compiler := $cur-compiler; .WHAT.new();
+    # with $cur-compiler {
+    #     $compiler.parsegrammar: .parsegrammar;
+    #     $compiler.parseactions: .parseactions;
+    #     $compiler.addstage:     'syntaxcheck', :before<ast>;
+    #     $compiler.addstage:     'optimize', :after<ast>;
+    #     for .config.keys -> $k {
+    #         $compiler.config{$k} = .config{$k}
+    #     }
+    # }
+    # nqp::bindhllsym('perl6', '$COMPILER_CONFIG', $compiler.config);
+    # LEAVE nqp::bindhllsym('perl6', '$COMPILER_CONFIG', $cur-compiler.config);
     if nqp::isnull($compiler) {
         # Try a multi-dispatch to another EVAL candidate. If that fails to
         # dispatch, map it to a typed exception.
@@ -76,7 +77,9 @@ proto sub EVAL(
     my $LANG := $context<%?LANG>:exists
                     ?? $context<%?LANG>
                     !! (CALLERS::<%?LANG>:exists ?? CALLERS::<%?LANG> !! Nil);
-    my $*INSIDE-EVAL = 1;
+    my $*INSIDE-EVAL = 1;       # Simplify EVAL detection for any compile- and run-time code.
+    my $*EVAL-AS-UNIT = $unit; # Shall we simulate unit compilation?
+    note("EVAL AS UNIT: ", $*EVAL-AS-UNIT) if %*ENV<RAKUDO_DEBUG>;
     my $compiled;
     # This lock is a protection from 'Decoder may not be used concurrently' error thrown by MoarVM
     $compile-lock.protect: {
