@@ -24,6 +24,9 @@ my class Rakudo::Internals::EvalIdSource {
         $lock.protect: { $count++ }
     }
 }
+
+my Lock $compile-lock .= new;
+
 proto sub EVAL(
   $code is copy where Blob|Cool|Callable,
   Str()       :$lang = 'perl6',
@@ -35,7 +38,22 @@ proto sub EVAL(
     die "EVAL() in Perl 6 is intended to evaluate strings, did you mean 'try'?"
       if nqp::istype($code,Callable);
     # First look in compiler registry.
-    my $compiler := nqp::getcomp($lang);
+    my $cur-compiler := nqp::getcomp($lang);
+    # Create a new compiler and initialize it from the current compiler object. This should make it easier to get rid of
+    # compilation lock below when all underlying components become thread-safe. For now this would serve for protecting
+    # internals of the current compiler from been altered by EVALed code.
+    my $compiler := $cur-compiler.WHAT.new();
+    with $cur-compiler {
+        $compiler.parsegrammar: .parsegrammar;
+        $compiler.parseactions: .parseactions;
+        $compiler.addstage:     'syntaxcheck', :before<ast>;
+        $compiler.addstage:     'optimize', :after<ast>;
+        for .config.keys -> $k {
+            $compiler.config{$k} = .config{$k}
+        }
+    }
+    nqp::bindhllsym('perl6', '$COMPILER_CONFIG', $compiler.config);
+    LEAVE nqp::bindhllsym('perl6', '$COMPILER_CONFIG', $cur-compiler.config);
     if nqp::isnull($compiler) {
         # Try a multi-dispatch to another EVAL candidate. If that fails to
         # dispatch, map it to a typed exception.
@@ -59,13 +77,17 @@ proto sub EVAL(
                     ?? $context<%?LANG>
                     !! (CALLERS::<%?LANG>:exists ?? CALLERS::<%?LANG> !! Nil);
     my $*INSIDE-EVAL = 1;
-    my $compiled := $compiler.compile:
-        $code,
-        :outer_ctx($eval_ctx),
-        :global(GLOBAL),
-        :mast_frames(mast_frames),
-        |(:optimize($_) with nqp::getcomp('perl6').cli-options<optimize>),
-        |(%(:grammar($LANG<MAIN>), :actions($LANG<MAIN-actions>)) if $LANG);
+    my $compiled;
+    # This lock is a protection from 'Decoder may not be used concurrently' error thrown by MoarVM
+    $compile-lock.protect: {
+        $compiled := $compiler.compile:
+            $code,
+            :outer_ctx($eval_ctx),
+            :global(GLOBAL),
+            :mast_frames(mast_frames),
+            |(:optimize($_) with nqp::getcomp('perl6').cli-options<optimize>),
+            |(%(:grammar($LANG<MAIN>), :actions($LANG<MAIN-actions>)) if $LANG);
+    }
 
     if $check {
         Nil
