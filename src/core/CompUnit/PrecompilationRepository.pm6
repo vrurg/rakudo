@@ -37,9 +37,11 @@ class CompUnit::PrecompilationRepository::Default does CompUnit::PrecompilationR
         my $RMD = $*RAKUDO_MODULE_DEBUG;
         my $id = $dependency.id;
         $RMD("try-load $id: $source") if $RMD;
+        note("try-load $id: $source") if %*ENV<RAKUDO_DEBUG>;
 
         # Even if we may no longer precompile, we should use already loaded files
         $loaded-lock.protect: {
+            note "$source pre-comp is loaded" if %*ENV<RAKUDO_DEBUG> and %loaded{$id}:exists;
             return %loaded{$id} if %loaded{$id}:exists;
         }
 
@@ -74,6 +76,7 @@ class CompUnit::PrecompilationRepository::Default does CompUnit::PrecompilationR
 #?if jvm
         my $handle := CompUnit::Loader.load-precompilation($unit.bytecode);
 #?endif
+        # TODO LEAVE phaser?
         nqp::bindhllsym('perl6', 'GLOBAL', $preserve_global);
         CATCH {
             default {

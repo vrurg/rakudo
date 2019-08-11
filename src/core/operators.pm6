@@ -604,6 +604,7 @@ sub INDIRECT_NAME_LOOKUP($root, *@chunks) is raw {
 }
 
 sub REQUIRE_IMPORT($compunit, $existing-path,$top-existing-pkg,$stubname, *@syms --> Nil) {
+    note("REQUIRE_IMPORT: compunit({$compunit.short-name}:{$compunit.from}) existing-path({$existing-path.^name}), top-existing-pkg({$top-existing-pkg.^name}), stubname({$stubname.^name}) syms#{+@syms}") if %*ENV<RAKUDO_DEBUG>;
     my $handle := $compunit.handle;
     my $DEFAULT := $handle.export-package()<DEFAULT>.WHO;
     my $GLOBALish := $handle.globalish-package;
@@ -652,15 +653,38 @@ sub REQUIRE_IMPORT($compunit, $existing-path,$top-existing-pkg,$stubname, *@syms
     if @missing {
         X::Import::MissingSymbols.new(:from($compunit.short-name), :@missing).throw;
     }
+    if %*ENV<RAKUDO_DEBUG> {
+        sub dump-ns(Mu \stash, :$level = 1) {
+            my $pfx = "  " x $level;
+            for stash.keys.sort -> $stsym {
+                my Mu \stval = stash.AT-KEY($stsym);
+                note("{$pfx}stash sym: $stsym => ", stval.^name);
+                if stval.HOW ~~ Perl6::Metamodel::PackageHOW {
+                    dump-ns(stval.WHO, level => $level + 1);
+                }
+            }
+        }
+        for $block<%REQUIRE_SYMBOLS>.keys -> $rsym {
+            note("  REQUIRE_SYMBOL before merge: $rsym => ", $block<%REQUIRE_SYMBOLS>{$rsym}.^name);
+        }
+        dump-ns($GLOBALish);
+    }
+    note("++ merge-globals-target") if nqp::getenvhash<RAKUDO_DEBUG>;
     nqp::gethllsym('perl6','ModuleLoader').merge_globals(
         $merge-globals-target.AT-KEY($stubname).WHO,
         $GLOBALish,
     ) if $stubname;
     # Merge GLOBAL from compunit.
+    note("++ merge into REQUIRE_SYMBOLS") if nqp::getenvhash<RAKUDO_DEBUG>;
     nqp::gethllsym('perl6','ModuleLoader').merge_globals(
         $block<%REQUIRE_SYMBOLS>,
         $GLOBALish,
     );
+    if %*ENV<RAKUDO_DEBUG> {
+        for $block<%REQUIRE_SYMBOLS>.keys -> $rsym {
+            note("  REQUIRE_SYMBOL: $rsym => ", $block<%REQUIRE_SYMBOLS>{$rsym}.^name);
+        }
+    }
 }
 
 proto sub infix:<andthen>(|) {*}

@@ -48,7 +48,32 @@ class CompUnit::Loader is repr('Uninstantiable') {
         # Switch file handle to binary mode before passing it off to the VM,
         # so we don't lose things hanging around in the decoder.
         $file.encoding(Nil);
+        note("<<< LOADING bytecode from ", $file.path.Str) if %*ENV<RAKUDO_DEBUG>;
+                    sub dump-ns(Mu \stash, :$level = 1) {
+                        my $pfx = "  " x $level;
+                        for stash.keys.sort -> $stsym {
+                            my Mu \stval = stash.AT-KEY($stsym);
+                            note("{$pfx}stash sym: $stsym => ", stval.^name);
+                            if stval.HOW ~~ Perl6::Metamodel::PackageHOW {
+                                dump-ns(stval.WHO, level => $level + 1);
+                            }
+                        }
+                    }
+            if %*ENV<RAKUDO_DEBUG> {
+                note("  > before loadbytecodefh", $file.path.Str);
+                if $handle && ($file.path.Str ~~ m/D9BA44AC504D5F36EFF402FC710B72E73D81EA61/) {
+
+                    dump-ns($handle.globalish-package);
+                }
+            }
         nqp::loadbytecodefh(nqp::getattr($file, IO::Handle, '$!PIO'), $file.path.Str);
+            if %*ENV<RAKUDO_DEBUG> {
+                note("  < after loadbytecodefh", $file.path.Str);
+                if $handle && ($file.path.Str ~~ m/D9BA44AC504D5F36EFF402FC710B72E73D81EA61/) {
+
+                    dump-ns($handle.globalish-package);
+                }
+            }
 #?endif
         $handle
     }
