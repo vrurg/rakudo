@@ -1,0 +1,2041 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="rakudo" Version="10.0.0" InternalType="">
+  <VirtualDirectory Name="rakudo">
+    <File Name="perl6-m.c"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="src">
+    <VirtualDirectory Name="vm">
+      <VirtualDirectory Name="moar">
+        <VirtualDirectory Name="ops">
+          <File Name="src/vm/moar/ops/container.c"/>
+          <File Name="src/vm/moar/ops/perl6_ops.c"/>
+          <File Name="src/vm/moar/ops/container.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="runner">
+          <File Name="src/vm/moar/runner/main.c"/>
+        </VirtualDirectory>
+      </VirtualDirectory>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="install">
+    <VirtualDirectory Name="include">
+      <VirtualDirectory Name="libatomic_ops">
+        <File Name="install/include/libatomic_ops/atomic_ops_stack.h"/>
+        <File Name="install/include/libatomic_ops/atomic_ops_malloc.h"/>
+        <File Name="install/include/libatomic_ops/atomic_ops.h"/>
+        <File Name="install/include/libatomic_ops/config.h"/>
+        <VirtualDirectory Name="atomic_ops">
+          <File Name="install/include/libatomic_ops/atomic_ops/ao_version.h"/>
+          <File Name="install/include/libatomic_ops/atomic_ops/generalize.h"/>
+          <File Name="install/include/libatomic_ops/atomic_ops/generalize-small.h"/>
+          <File Name="install/include/libatomic_ops/atomic_ops/generalize-arithm.h"/>
+          <VirtualDirectory Name="sysdeps">
+            <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/generic_pthread.h"/>
+            <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/ordered_except_wr.h"/>
+            <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/test_and_set_t_is_char.h"/>
+            <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/all_acquire_release_volatile.h"/>
+            <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/ao_t_is_int.h"/>
+            <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/all_atomic_load_store.h"/>
+            <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/ordered.h"/>
+            <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/standard_ao_double_t.h"/>
+            <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/read_ordered.h"/>
+            <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/emul_cas.h"/>
+            <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/all_aligned_atomic_load_store.h"/>
+            <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/all_atomic_only_load.h"/>
+            <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/test_and_set_t_is_ao_t.h"/>
+            <VirtualDirectory Name="loadstore">
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/loadstore/ordered_loads_only.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/loadstore/int_acquire_release_volatile.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/loadstore/char_acquire_release_volatile.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/loadstore/int_atomic_load.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/loadstore/ordered_stores_only.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/loadstore/int_atomic_store.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/loadstore/atomic_load.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/loadstore/atomic_store.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/loadstore/char_atomic_load.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/loadstore/char_atomic_store.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/loadstore/short_atomic_load.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/loadstore/short_atomic_store.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/loadstore/acquire_release_volatile.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/loadstore/short_acquire_release_volatile.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/loadstore/double_atomic_load_store.h"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="armcc">
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/armcc/arm_v6.h"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="ibmc">
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/ibmc/powerpc.h"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="hpc">
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/hpc/hppa.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/hpc/ia64.h"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="icc">
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/icc/ia64.h"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="gcc">
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/aarch64.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/s390.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/generic-arithm.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/x86.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/hppa.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/alpha.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/arm.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/avr32.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/ia64.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/tile.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/sh.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/powerpc.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/m68k.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/cris.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/generic-small.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/sparc.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/nios2.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/mips.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/generic.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/gcc/hexagon.h"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="sunc">
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/sunc/x86.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/sunc/sparc.h"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="msftc">
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/msftc/x86_64.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/msftc/x86.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/msftc/arm.h"/>
+              <File Name="install/include/libatomic_ops/atomic_ops/sysdeps/msftc/common32_defs.h"/>
+            </VirtualDirectory>
+          </VirtualDirectory>
+        </VirtualDirectory>
+      </VirtualDirectory>
+      <VirtualDirectory Name="dyncall">
+        <File Name="install/include/dyncall/dyncall_callvm.h"/>
+        <File Name="install/include/dyncall/dyncall_value.h"/>
+        <File Name="install/include/dyncall/dyncall_config.h"/>
+        <File Name="install/include/dyncall/dyncall_args_ppc64.h"/>
+        <File Name="install/include/dyncall/dyncall_thunk_arm32_thumb.h"/>
+        <File Name="install/include/dyncall/dyncall_call_mips.h"/>
+        <File Name="install/include/dyncall/dyncall_call_mips_o32.h"/>
+        <File Name="install/include/dyncall/dyncall_thunk_ppc32.h"/>
+        <File Name="install/include/dyncall/dyncall_call_mips_eabi.h"/>
+        <File Name="install/include/dyncall/dyncall_args_x86.h"/>
+        <File Name="install/include/dyncall/dyncall_call_mips_n32.h"/>
+        <File Name="install/include/dyncall/dyncall_call_x64.h"/>
+        <File Name="install/include/dyncall/dyncall_call_arm32_arm_armhf.h"/>
+        <File Name="install/include/dyncall/dyncall_call_sparc64.h"/>
+        <File Name="install/include/dyncall/dyncall_args_arm32_arm.h"/>
+        <File Name="install/include/dyncall/dyncall_thunk_arm32_arm.h"/>
+        <File Name="install/include/dyncall/dyncall_callback_ppc64.h"/>
+        <File Name="install/include/dyncall/dyncall_call_arm32_thumb.h"/>
+        <File Name="install/include/dyncall/dyncall_callback_mips.h"/>
+        <File Name="install/include/dyncall/dyncall_callvm_sparc.h"/>
+        <File Name="install/include/dyncall/dyncall_callvm_arm32_arm_armhf.h"/>
+        <File Name="install/include/dyncall/dyncall_call_ppc64.h"/>
+        <File Name="install/include/dyncall/dyncall_thunk_x86.h"/>
+        <File Name="install/include/dyncall/dyncall_struct.h"/>
+        <File Name="install/include/dyncall/dyncall_types.h"/>
+        <File Name="install/include/dyncall/dynload_alloc.h"/>
+        <File Name="install/include/dyncall/dyncall_thunk_sparc64.h"/>
+        <File Name="install/include/dyncall/dyncall_signature.h"/>
+        <File Name="install/include/dyncall/dyncall_args_sparc64.h"/>
+        <File Name="install/include/dyncall/dyncall_callback_x64.h"/>
+        <File Name="install/include/dyncall/dyncall.h"/>
+        <File Name="install/include/dyncall/dyncall_thunk_arm64.h"/>
+        <File Name="install/include/dyncall/dyncall_callvm_arm32_thumb.h"/>
+        <File Name="install/include/dyncall/dyncall_callvm_mips_o32.h"/>
+        <File Name="install/include/dyncall/dynload.h"/>
+        <File Name="install/include/dyncall/dyncall_callvm_x64.h"/>
+        <File Name="install/include/dyncall/dyncall_call_sparc.h"/>
+        <File Name="install/include/dyncall/dyncall_args_mips.h"/>
+        <File Name="install/include/dyncall/dyncall_alloc_wx.h"/>
+        <File Name="install/include/dyncall/dyncall_callvm_ppc64.h"/>
+        <File Name="install/include/dyncall/dyncall_callvm_mips_eabi.h"/>
+        <File Name="install/include/dyncall/dyncall_utils.h"/>
+        <File Name="install/include/dyncall/dyncall_callback_x86.h"/>
+        <File Name="install/include/dyncall/dyncall_callvm_arm64.h"/>
+        <File Name="install/include/dyncall/dyncall_call_ppc32.h"/>
+        <File Name="install/include/dyncall/dyncall_macros.h"/>
+        <File Name="install/include/dyncall/dyncall_callback_arm32_arm.h"/>
+        <File Name="install/include/dyncall/dyncall_callf.h"/>
+        <File Name="install/include/dyncall/dyncall_callback.h"/>
+        <File Name="install/include/dyncall/dyncall_callback_ppc32.h"/>
+        <File Name="install/include/dyncall/dyncall_thunk_x64.h"/>
+        <File Name="install/include/dyncall/dyncall_callback_sparc32.h"/>
+        <File Name="install/include/dyncall/dyncall_alloc.h"/>
+        <File Name="install/include/dyncall/dyncall_callback_arm32_thumb.h"/>
+        <File Name="install/include/dyncall/dyncall_callvm_arm32_arm.h"/>
+        <File Name="install/include/dyncall/dyncall_thunk_ppc64.h"/>
+        <File Name="install/include/dyncall/dyncall_call_mips_n64.h"/>
+        <File Name="install/include/dyncall/dyncall_callvm_sparc_v9.h"/>
+        <File Name="install/include/dyncall/dyncall_args_ppc32.h"/>
+        <File Name="install/include/dyncall/dyncall_thunk.h"/>
+        <File Name="install/include/dyncall/dyncall_callvm_x86.h"/>
+        <File Name="install/include/dyncall/dyncall_args.h"/>
+        <File Name="install/include/dyncall/dyncall_callvm_sparc64.h"/>
+        <File Name="install/include/dyncall/dyncall_args_x64.h"/>
+        <File Name="install/include/dyncall/dyncall_args_arm32_thumb.h"/>
+        <File Name="install/include/dyncall/dyncall_call_arm64.h"/>
+        <File Name="install/include/dyncall/dyncall_call_arm32_arm.h"/>
+        <File Name="install/include/dyncall/dyncall_call_sparc_v9.h"/>
+        <File Name="install/include/dyncall/dyncall_callvm_ppc32.h"/>
+        <File Name="install/include/dyncall/dyncall_callvm_mips_n64.h"/>
+        <File Name="install/include/dyncall/dyncall_thunk_mips.h"/>
+        <File Name="install/include/dyncall/dyncall_thunk_sparc32.h"/>
+        <File Name="install/include/dyncall/dyncall_args_sparc32.h"/>
+        <File Name="install/include/dyncall/dyncall_vector.h"/>
+        <File Name="install/include/dyncall/dyncall_callvm_mips.h"/>
+        <File Name="install/include/dyncall/dyncall_call_x86.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="libuv">
+        <File Name="install/include/libuv/uv.h"/>
+        <VirtualDirectory Name="uv">
+          <File Name="install/include/libuv/uv/unix.h"/>
+          <File Name="install/include/libuv/uv/win.h"/>
+          <File Name="install/include/libuv/uv/sunos.h"/>
+          <File Name="install/include/libuv/uv/aix.h"/>
+          <File Name="install/include/libuv/uv/stdint-msvc2008.h"/>
+          <File Name="install/include/libuv/uv/os390.h"/>
+          <File Name="install/include/libuv/uv/darwin.h"/>
+          <File Name="install/include/libuv/uv/errno.h"/>
+          <File Name="install/include/libuv/uv/posix.h"/>
+          <File Name="install/include/libuv/uv/android-ifaddrs.h"/>
+          <File Name="install/include/libuv/uv/tree.h"/>
+          <File Name="install/include/libuv/uv/linux.h"/>
+          <File Name="install/include/libuv/uv/threadpool.h"/>
+          <File Name="install/include/libuv/uv/bsd.h"/>
+          <File Name="install/include/libuv/uv/version.h"/>
+        </VirtualDirectory>
+      </VirtualDirectory>
+      <VirtualDirectory Name="libtommath">
+        <File Name="install/include/libtommath/tommath.h"/>
+        <File Name="install/include/libtommath/tommath_superclass.h"/>
+        <File Name="install/include/libtommath/tommath_class.h"/>
+        <File Name="install/include/libtommath/tommath_private.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="moar">
+        <File Name="install/include/moar/gcc_diag.h"/>
+        <File Name="install/include/moar/bithacks.h"/>
+        <File Name="install/include/moar/moar.h"/>
+        <File Name="install/include/moar/types.h"/>
+        <File Name="install/include/moar/config.h"/>
+        <File Name="install/include/moar/memdebug.h"/>
+        <VirtualDirectory Name="debug">
+          <File Name="install/include/moar/debug/debugserver.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="profiler">
+          <File Name="install/include/moar/profiler/log.h"/>
+          <File Name="install/include/moar/profiler/instrument.h"/>
+          <File Name="install/include/moar/profiler/configuration.h"/>
+          <File Name="install/include/moar/profiler/heapsnapshot.h"/>
+          <File Name="install/include/moar/profiler/telemeh.h"/>
+          <File Name="install/include/moar/profiler/profile.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="gc">
+          <File Name="install/include/moar/gc/orchestrate.h"/>
+          <File Name="install/include/moar/gc/finalize.h"/>
+          <File Name="install/include/moar/gc/objectid.h"/>
+          <File Name="install/include/moar/gc/worklist.h"/>
+          <File Name="install/include/moar/gc/collect.h"/>
+          <File Name="install/include/moar/gc/roots.h"/>
+          <File Name="install/include/moar/gc/allocation.h"/>
+          <File Name="install/include/moar/gc/wb.h"/>
+          <File Name="install/include/moar/gc/gen2.h"/>
+          <File Name="install/include/moar/gc/debug.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="jit">
+          <File Name="install/include/moar/jit/register.h"/>
+          <File Name="install/include/moar/jit/core_templates.h"/>
+          <File Name="install/include/moar/jit/expr_ops.h"/>
+          <File Name="install/include/moar/jit/compile.h"/>
+          <File Name="install/include/moar/jit/interface.h"/>
+          <File Name="install/include/moar/jit/graph.h"/>
+          <File Name="install/include/moar/jit/expr.h"/>
+          <File Name="install/include/moar/jit/tile.h"/>
+          <File Name="install/include/moar/jit/label.h"/>
+          <File Name="install/include/moar/jit/internal.h"/>
+          <File Name="install/include/moar/jit/dump.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="spesh">
+          <File Name="install/include/moar/spesh/osr.h"/>
+          <File Name="install/include/moar/spesh/stats.h"/>
+          <File Name="install/include/moar/spesh/iterator.h"/>
+          <File Name="install/include/moar/spesh/plan.h"/>
+          <File Name="install/include/moar/spesh/arg_guard.h"/>
+          <File Name="install/include/moar/spesh/candidate.h"/>
+          <File Name="install/include/moar/spesh/dead_bb_elimination.h"/>
+          <File Name="install/include/moar/spesh/lookup.h"/>
+          <File Name="install/include/moar/spesh/usages.h"/>
+          <File Name="install/include/moar/spesh/log.h"/>
+          <File Name="install/include/moar/spesh/pea.h"/>
+          <File Name="install/include/moar/spesh/args.h"/>
+          <File Name="install/include/moar/spesh/codegen.h"/>
+          <File Name="install/include/moar/spesh/worker.h"/>
+          <File Name="install/include/moar/spesh/graph.h"/>
+          <File Name="install/include/moar/spesh/frame_walker.h"/>
+          <File Name="install/include/moar/spesh/threshold.h"/>
+          <File Name="install/include/moar/spesh/dead_ins_elimination.h"/>
+          <File Name="install/include/moar/spesh/inline.h"/>
+          <File Name="install/include/moar/spesh/manipulate.h"/>
+          <File Name="install/include/moar/spesh/optimize.h"/>
+          <File Name="install/include/moar/spesh/deopt.h"/>
+          <File Name="install/include/moar/spesh/plugin.h"/>
+          <File Name="install/include/moar/spesh/debug.h"/>
+          <File Name="install/include/moar/spesh/facts.h"/>
+          <File Name="install/include/moar/spesh/dump.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="math">
+          <File Name="install/include/moar/math/bigintops.h"/>
+          <File Name="install/include/moar/math/grisu.h"/>
+          <File Name="install/include/moar/math/num.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="gen">
+          <File Name="install/include/moar/gen/config.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="io">
+          <File Name="install/include/moar/io/eventloop.h"/>
+          <File Name="install/include/moar/io/filewatchers.h"/>
+          <File Name="install/include/moar/io/asyncsocketudp.h"/>
+          <File Name="install/include/moar/io/io.h"/>
+          <File Name="install/include/moar/io/procops.h"/>
+          <File Name="install/include/moar/io/syncfile.h"/>
+          <File Name="install/include/moar/io/signals.h"/>
+          <File Name="install/include/moar/io/fileops.h"/>
+          <File Name="install/include/moar/io/asyncsocket.h"/>
+          <File Name="install/include/moar/io/dirops.h"/>
+          <File Name="install/include/moar/io/syncsocket.h"/>
+          <File Name="install/include/moar/io/timers.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="platform">
+          <File Name="install/include/moar/platform/random.h"/>
+          <File Name="install/include/moar/platform/stdint.h"/>
+          <File Name="install/include/moar/platform/mmap.h"/>
+          <File Name="install/include/moar/platform/sys.h"/>
+          <File Name="install/include/moar/platform/fork.h"/>
+          <File Name="install/include/moar/platform/io.h"/>
+          <File Name="install/include/moar/platform/setjmp.h"/>
+          <File Name="install/include/moar/platform/memmem.h"/>
+          <File Name="install/include/moar/platform/threads.h"/>
+          <File Name="install/include/moar/platform/memmem32.h"/>
+          <File Name="install/include/moar/platform/malloc_trim.h"/>
+          <File Name="install/include/moar/platform/inttypes.h"/>
+          <File Name="install/include/moar/platform/time.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="6model">
+          <File Name="install/include/moar/6model/sc.h"/>
+          <File Name="install/include/moar/6model/parametric.h"/>
+          <File Name="install/include/moar/6model/reprs.h"/>
+          <File Name="install/include/moar/6model/containers.h"/>
+          <File Name="install/include/moar/6model/6model.h"/>
+          <File Name="install/include/moar/6model/bootstrap.h"/>
+          <File Name="install/include/moar/6model/serialization.h"/>
+          <File Name="install/include/moar/6model/reprconv.h"/>
+          <VirtualDirectory Name="reprs">
+            <File Name="install/include/moar/6model/reprs/P6int.h"/>
+            <File Name="install/include/moar/6model/reprs/CStruct.h"/>
+            <File Name="install/include/moar/6model/reprs/MultiDimArray.h"/>
+            <File Name="install/include/moar/6model/reprs/ReentrantMutex.h"/>
+            <File Name="install/include/moar/6model/reprs/CStr.h"/>
+            <File Name="install/include/moar/6model/reprs/VMArray.h"/>
+            <File Name="install/include/moar/6model/reprs/P6num.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMHash.h"/>
+            <File Name="install/include/moar/6model/reprs/CPointer.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMCallCapture.h"/>
+            <File Name="install/include/moar/6model/reprs/P6bigint.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMContinuation.h"/>
+            <File Name="install/include/moar/6model/reprs/SCRef.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMOSHandle.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMCompUnit.h"/>
+            <File Name="install/include/moar/6model/reprs/NFA.h"/>
+            <File Name="install/include/moar/6model/reprs/HashAttrStore.h"/>
+            <File Name="install/include/moar/6model/reprs/ConcBlockingQueue.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMSpeshLog.h"/>
+            <File Name="install/include/moar/6model/reprs/KnowHOWAttributeREPR.h"/>
+            <File Name="install/include/moar/6model/reprs/P6opaque.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMStaticFrame.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMNull.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMCode.h"/>
+            <File Name="install/include/moar/6model/reprs/Decoder.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMMultiCache.h"/>
+            <File Name="install/include/moar/6model/reprs/CPPStruct.h"/>
+            <File Name="install/include/moar/6model/reprs/NativeRef.h"/>
+            <File Name="install/include/moar/6model/reprs/ConditionVariable.h"/>
+            <File Name="install/include/moar/6model/reprs/CArray.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMString.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMException.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMAsyncTask.h"/>
+            <File Name="install/include/moar/6model/reprs/P6str.h"/>
+            <File Name="install/include/moar/6model/reprs/KnowHOWREPR.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMDLLSym.h"/>
+            <File Name="install/include/moar/6model/reprs/NativeCall.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMStaticFrameSpesh.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMThread.h"/>
+            <File Name="install/include/moar/6model/reprs/Uninstantiable.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMIter.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMCFunction.h"/>
+            <File Name="install/include/moar/6model/reprs/CUnion.h"/>
+            <File Name="install/include/moar/6model/reprs/Semaphore.h"/>
+            <File Name="install/include/moar/6model/reprs/MVMContext.h"/>
+          </VirtualDirectory>
+        </VirtualDirectory>
+        <VirtualDirectory Name="instrument">
+          <File Name="install/include/moar/instrument/line_coverage.h"/>
+          <File Name="install/include/moar/instrument/crossthreadwrite.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="core">
+          <File Name="install/include/moar/core/alloc.h"/>
+          <File Name="install/include/moar/core/interp.h"/>
+          <File Name="install/include/moar/core/bitmap.h"/>
+          <File Name="install/include/moar/core/vector.h"/>
+          <File Name="install/include/moar/core/ext.h"/>
+          <File Name="install/include/moar/core/loadbytecode.h"/>
+          <File Name="install/include/moar/core/callsite.h"/>
+          <File Name="install/include/moar/core/ops.h"/>
+          <File Name="install/include/moar/core/instance.h"/>
+          <File Name="install/include/moar/core/nativecall_dyncall.h"/>
+          <File Name="install/include/moar/core/validation.h"/>
+          <File Name="install/include/moar/core/bytecodedump.h"/>
+          <File Name="install/include/moar/core/compunit.h"/>
+          <File Name="install/include/moar/core/bytecode.h"/>
+          <File Name="install/include/moar/core/coerce.h"/>
+          <File Name="install/include/moar/core/args.h"/>
+          <File Name="install/include/moar/core/regionalloc.h"/>
+          <File Name="install/include/moar/core/oplabels.h"/>
+          <File Name="install/include/moar/core/hll.h"/>
+          <File Name="install/include/moar/core/nativecall_libffi.h"/>
+          <File Name="install/include/moar/core/fixedsizealloc.h"/>
+          <File Name="install/include/moar/core/intcache.h"/>
+          <File Name="install/include/moar/core/dll.h"/>
+          <File Name="install/include/moar/core/threads.h"/>
+          <File Name="install/include/moar/core/continuation.h"/>
+          <File Name="install/include/moar/core/threadcontext.h"/>
+          <File Name="install/include/moar/core/exceptions.h"/>
+          <File Name="install/include/moar/core/frame.h"/>
+          <File Name="install/include/moar/core/callstack.h"/>
+          <File Name="install/include/moar/core/nativecall.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="strings">
+          <File Name="install/include/moar/strings/utf8.h"/>
+          <File Name="install/include/moar/strings/utf8_c8.h"/>
+          <File Name="install/include/moar/strings/utf16.h"/>
+          <File Name="install/include/moar/strings/unicode_ops.h"/>
+          <File Name="install/include/moar/strings/decode_stream.h"/>
+          <File Name="install/include/moar/strings/ops.h"/>
+          <File Name="install/include/moar/strings/parse_num.h"/>
+          <File Name="install/include/moar/strings/unicode.h"/>
+          <File Name="install/include/moar/strings/ascii.h"/>
+          <File Name="install/include/moar/strings/uthash.h"/>
+          <File Name="install/include/moar/strings/shiftjis.h"/>
+          <File Name="install/include/moar/strings/unicode_gen.h"/>
+          <File Name="install/include/moar/strings/uthash_types.h"/>
+          <File Name="install/include/moar/strings/normalize.h"/>
+          <File Name="install/include/moar/strings/unicode_prop_macros.h"/>
+          <File Name="install/include/moar/strings/shiftjis_codeindex.h"/>
+          <File Name="install/include/moar/strings/iter.h"/>
+          <File Name="install/include/moar/strings/latin1.h"/>
+          <File Name="install/include/moar/strings/nfg.h"/>
+          <File Name="install/include/moar/strings/windows1252.h"/>
+          <VirtualDirectory Name="siphash">
+            <File Name="install/include/moar/strings/siphash/csiphash.h"/>
+          </VirtualDirectory>
+        </VirtualDirectory>
+      </VirtualDirectory>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="nqp">
+    <File Name="nqp/nqp-m.c"/>
+    <File Name="nqp/nqp.c"/>
+    <VirtualDirectory Name="src">
+      <VirtualDirectory Name="vm">
+        <VirtualDirectory Name="moar">
+          <VirtualDirectory Name="runner">
+            <File Name="nqp/src/vm/moar/runner/main.c"/>
+          </VirtualDirectory>
+        </VirtualDirectory>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="MoarVM">
+      <VirtualDirectory Name="src">
+        <File Name="nqp/MoarVM/src/gcc_diag.h"/>
+        <File Name="nqp/MoarVM/src/moar.c"/>
+        <File Name="nqp/MoarVM/src/bithacks.h"/>
+        <File Name="nqp/MoarVM/src/main.c"/>
+        <File Name="nqp/MoarVM/src/moar.h"/>
+        <File Name="nqp/MoarVM/src/types.h"/>
+        <File Name="nqp/MoarVM/src/memdebug.h"/>
+        <VirtualDirectory Name="debug">
+          <File Name="nqp/MoarVM/src/debug/debugserver.h"/>
+          <File Name="nqp/MoarVM/src/debug/debugserver.c"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="profiler">
+          <File Name="nqp/MoarVM/src/profiler/configuration.c"/>
+          <File Name="nqp/MoarVM/src/profiler/instrument.c"/>
+          <File Name="nqp/MoarVM/src/profiler/heapsnapshot.c"/>
+          <File Name="nqp/MoarVM/src/profiler/profile.c"/>
+          <File Name="nqp/MoarVM/src/profiler/telemeh.c"/>
+          <File Name="nqp/MoarVM/src/profiler/log.h"/>
+          <File Name="nqp/MoarVM/src/profiler/instrument.h"/>
+          <File Name="nqp/MoarVM/src/profiler/configuration.h"/>
+          <File Name="nqp/MoarVM/src/profiler/heapsnapshot.h"/>
+          <File Name="nqp/MoarVM/src/profiler/telemeh.h"/>
+          <File Name="nqp/MoarVM/src/profiler/profile.h"/>
+          <File Name="nqp/MoarVM/src/profiler/log.c"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="gc">
+          <File Name="nqp/MoarVM/src/gc/allocation.c"/>
+          <File Name="nqp/MoarVM/src/gc/orchestrate.h"/>
+          <File Name="nqp/MoarVM/src/gc/gen2.c"/>
+          <File Name="nqp/MoarVM/src/gc/finalize.h"/>
+          <File Name="nqp/MoarVM/src/gc/objectid.h"/>
+          <File Name="nqp/MoarVM/src/gc/wb.c"/>
+          <File Name="nqp/MoarVM/src/gc/worklist.h"/>
+          <File Name="nqp/MoarVM/src/gc/collect.h"/>
+          <File Name="nqp/MoarVM/src/gc/debug.c"/>
+          <File Name="nqp/MoarVM/src/gc/roots.h"/>
+          <File Name="nqp/MoarVM/src/gc/orchestrate.c"/>
+          <File Name="nqp/MoarVM/src/gc/allocation.h"/>
+          <File Name="nqp/MoarVM/src/gc/wb.h"/>
+          <File Name="nqp/MoarVM/src/gc/objectid.c"/>
+          <File Name="nqp/MoarVM/src/gc/finalize.c"/>
+          <File Name="nqp/MoarVM/src/gc/gen2.h"/>
+          <File Name="nqp/MoarVM/src/gc/debug.h"/>
+          <File Name="nqp/MoarVM/src/gc/roots.c"/>
+          <File Name="nqp/MoarVM/src/gc/collect.c"/>
+          <File Name="nqp/MoarVM/src/gc/worklist.c"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="jit">
+          <File Name="nqp/MoarVM/src/jit/expr.c"/>
+          <File Name="nqp/MoarVM/src/jit/linear_scan.c"/>
+          <File Name="nqp/MoarVM/src/jit/graph.c"/>
+          <File Name="nqp/MoarVM/src/jit/register.h"/>
+          <File Name="nqp/MoarVM/src/jit/core_templates.h"/>
+          <File Name="nqp/MoarVM/src/jit/expr_ops.h"/>
+          <File Name="nqp/MoarVM/src/jit/tile.c"/>
+          <File Name="nqp/MoarVM/src/jit/dump.c"/>
+          <File Name="nqp/MoarVM/src/jit/compile.h"/>
+          <File Name="nqp/MoarVM/src/jit/label.c"/>
+          <File Name="nqp/MoarVM/src/jit/interface.h"/>
+          <File Name="nqp/MoarVM/src/jit/stub.c"/>
+          <File Name="nqp/MoarVM/src/jit/graph.h"/>
+          <File Name="nqp/MoarVM/src/jit/expr.h"/>
+          <File Name="nqp/MoarVM/src/jit/tile.h"/>
+          <File Name="nqp/MoarVM/src/jit/label.h"/>
+          <File Name="nqp/MoarVM/src/jit/internal.h"/>
+          <File Name="nqp/MoarVM/src/jit/interface.c"/>
+          <File Name="nqp/MoarVM/src/jit/dump.h"/>
+          <File Name="nqp/MoarVM/src/jit/compile.c"/>
+          <VirtualDirectory Name="x64">
+            <File Name="nqp/MoarVM/src/jit/x64/arch.h"/>
+            <File Name="nqp/MoarVM/src/jit/x64/tile_pattern.h"/>
+            <File Name="nqp/MoarVM/src/jit/x64/tile_decl.h"/>
+            <File Name="nqp/MoarVM/src/jit/x64/arch.c"/>
+            <File Name="nqp/MoarVM/src/jit/x64/emit.c"/>
+          </VirtualDirectory>
+        </VirtualDirectory>
+        <VirtualDirectory Name="spesh">
+          <File Name="nqp/MoarVM/src/spesh/inline.c"/>
+          <File Name="nqp/MoarVM/src/spesh/osr.h"/>
+          <File Name="nqp/MoarVM/src/spesh/threshold.c"/>
+          <File Name="nqp/MoarVM/src/spesh/frame_walker.c"/>
+          <File Name="nqp/MoarVM/src/spesh/stats.h"/>
+          <File Name="nqp/MoarVM/src/spesh/iterator.h"/>
+          <File Name="nqp/MoarVM/src/spesh/dead_ins_elimination.c"/>
+          <File Name="nqp/MoarVM/src/spesh/plan.h"/>
+          <File Name="nqp/MoarVM/src/spesh/graph.c"/>
+          <File Name="nqp/MoarVM/src/spesh/manipulate.c"/>
+          <File Name="nqp/MoarVM/src/spesh/arg_guard.h"/>
+          <File Name="nqp/MoarVM/src/spesh/plugin.c"/>
+          <File Name="nqp/MoarVM/src/spesh/candidate.h"/>
+          <File Name="nqp/MoarVM/src/spesh/dead_bb_elimination.h"/>
+          <File Name="nqp/MoarVM/src/spesh/deopt.c"/>
+          <File Name="nqp/MoarVM/src/spesh/lookup.h"/>
+          <File Name="nqp/MoarVM/src/spesh/optimize.c"/>
+          <File Name="nqp/MoarVM/src/spesh/usages.h"/>
+          <File Name="nqp/MoarVM/src/spesh/log.h"/>
+          <File Name="nqp/MoarVM/src/spesh/dump.c"/>
+          <File Name="nqp/MoarVM/src/spesh/pea.h"/>
+          <File Name="nqp/MoarVM/src/spesh/args.h"/>
+          <File Name="nqp/MoarVM/src/spesh/codegen.h"/>
+          <File Name="nqp/MoarVM/src/spesh/debug.c"/>
+          <File Name="nqp/MoarVM/src/spesh/worker.h"/>
+          <File Name="nqp/MoarVM/src/spesh/facts.c"/>
+          <File Name="nqp/MoarVM/src/spesh/graph.h"/>
+          <File Name="nqp/MoarVM/src/spesh/frame_walker.h"/>
+          <File Name="nqp/MoarVM/src/spesh/threshold.h"/>
+          <File Name="nqp/MoarVM/src/spesh/osr.c"/>
+          <File Name="nqp/MoarVM/src/spesh/dead_ins_elimination.h"/>
+          <File Name="nqp/MoarVM/src/spesh/plan.c"/>
+          <File Name="nqp/MoarVM/src/spesh/iterator.c"/>
+          <File Name="nqp/MoarVM/src/spesh/stats.c"/>
+          <File Name="nqp/MoarVM/src/spesh/inline.h"/>
+          <File Name="nqp/MoarVM/src/spesh/arg_guard.c"/>
+          <File Name="nqp/MoarVM/src/spesh/manipulate.h"/>
+          <File Name="nqp/MoarVM/src/spesh/optimize.h"/>
+          <File Name="nqp/MoarVM/src/spesh/usages.c"/>
+          <File Name="nqp/MoarVM/src/spesh/deopt.h"/>
+          <File Name="nqp/MoarVM/src/spesh/dead_bb_elimination.c"/>
+          <File Name="nqp/MoarVM/src/spesh/lookup.c"/>
+          <File Name="nqp/MoarVM/src/spesh/plugin.h"/>
+          <File Name="nqp/MoarVM/src/spesh/candidate.c"/>
+          <File Name="nqp/MoarVM/src/spesh/worker.c"/>
+          <File Name="nqp/MoarVM/src/spesh/debug.h"/>
+          <File Name="nqp/MoarVM/src/spesh/codegen.c"/>
+          <File Name="nqp/MoarVM/src/spesh/facts.h"/>
+          <File Name="nqp/MoarVM/src/spesh/args.c"/>
+          <File Name="nqp/MoarVM/src/spesh/pea.c"/>
+          <File Name="nqp/MoarVM/src/spesh/dump.h"/>
+          <File Name="nqp/MoarVM/src/spesh/log.c"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="math">
+          <File Name="nqp/MoarVM/src/math/bigintops.h"/>
+          <File Name="nqp/MoarVM/src/math/num.c"/>
+          <File Name="nqp/MoarVM/src/math/grisu.h"/>
+          <File Name="nqp/MoarVM/src/math/bigintops.c"/>
+          <File Name="nqp/MoarVM/src/math/num.h"/>
+          <File Name="nqp/MoarVM/src/math/grisu.c"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="gen">
+          <File Name="nqp/MoarVM/src/gen/config.c"/>
+          <File Name="nqp/MoarVM/src/gen/config.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="io">
+          <File Name="nqp/MoarVM/src/io/signals.c"/>
+          <File Name="nqp/MoarVM/src/io/fileops.c"/>
+          <File Name="nqp/MoarVM/src/io/syncfile.c"/>
+          <File Name="nqp/MoarVM/src/io/eventloop.h"/>
+          <File Name="nqp/MoarVM/src/io/asyncsocket.c"/>
+          <File Name="nqp/MoarVM/src/io/filewatchers.h"/>
+          <File Name="nqp/MoarVM/src/io/asyncsocketudp.h"/>
+          <File Name="nqp/MoarVM/src/io/dirops.c"/>
+          <File Name="nqp/MoarVM/src/io/io.h"/>
+          <File Name="nqp/MoarVM/src/io/timers.c"/>
+          <File Name="nqp/MoarVM/src/io/syncsocket.c"/>
+          <File Name="nqp/MoarVM/src/io/procops.h"/>
+          <File Name="nqp/MoarVM/src/io/eventloop.c"/>
+          <File Name="nqp/MoarVM/src/io/syncfile.h"/>
+          <File Name="nqp/MoarVM/src/io/signals.h"/>
+          <File Name="nqp/MoarVM/src/io/fileops.h"/>
+          <File Name="nqp/MoarVM/src/io/asyncsocket.h"/>
+          <File Name="nqp/MoarVM/src/io/io.c"/>
+          <File Name="nqp/MoarVM/src/io/dirops.h"/>
+          <File Name="nqp/MoarVM/src/io/asyncsocketudp.c"/>
+          <File Name="nqp/MoarVM/src/io/filewatchers.c"/>
+          <File Name="nqp/MoarVM/src/io/syncsocket.h"/>
+          <File Name="nqp/MoarVM/src/io/procops.c"/>
+          <File Name="nqp/MoarVM/src/io/timers.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="platform">
+          <File Name="nqp/MoarVM/src/platform/random.h"/>
+          <File Name="nqp/MoarVM/src/platform/stdint.h"/>
+          <File Name="nqp/MoarVM/src/platform/mmap.h"/>
+          <File Name="nqp/MoarVM/src/platform/malloc_trim.c"/>
+          <File Name="nqp/MoarVM/src/platform/sys.h"/>
+          <File Name="nqp/MoarVM/src/platform/memmem32.c"/>
+          <File Name="nqp/MoarVM/src/platform/fork.h"/>
+          <File Name="nqp/MoarVM/src/platform/io.h"/>
+          <File Name="nqp/MoarVM/src/platform/setjmp.h"/>
+          <File Name="nqp/MoarVM/src/platform/memmem.h"/>
+          <File Name="nqp/MoarVM/src/platform/threads.h"/>
+          <File Name="nqp/MoarVM/src/platform/random.c"/>
+          <File Name="nqp/MoarVM/src/platform/memmem32.h"/>
+          <File Name="nqp/MoarVM/src/platform/malloc_trim.h"/>
+          <File Name="nqp/MoarVM/src/platform/sys.c"/>
+          <File Name="nqp/MoarVM/src/platform/inttypes.h"/>
+          <File Name="nqp/MoarVM/src/platform/time.h"/>
+          <VirtualDirectory Name="win32">
+            <File Name="nqp/MoarVM/src/platform/win32/time.c"/>
+            <File Name="nqp/MoarVM/src/platform/win32/mmap.c"/>
+            <File Name="nqp/MoarVM/src/platform/win32/fork.c"/>
+            <File Name="nqp/MoarVM/src/platform/win32/io.c"/>
+          </VirtualDirectory>
+          <VirtualDirectory Name="posix">
+            <File Name="nqp/MoarVM/src/platform/posix/time.c"/>
+            <File Name="nqp/MoarVM/src/platform/posix/mmap.c"/>
+            <File Name="nqp/MoarVM/src/platform/posix/fork.c"/>
+            <File Name="nqp/MoarVM/src/platform/posix/io.c"/>
+          </VirtualDirectory>
+        </VirtualDirectory>
+        <VirtualDirectory Name="6model">
+          <File Name="nqp/MoarVM/src/6model/bootstrap.c"/>
+          <File Name="nqp/MoarVM/src/6model/sc.h"/>
+          <File Name="nqp/MoarVM/src/6model/parametric.h"/>
+          <File Name="nqp/MoarVM/src/6model/reprconv.c"/>
+          <File Name="nqp/MoarVM/src/6model/reprs.h"/>
+          <File Name="nqp/MoarVM/src/6model/containers.h"/>
+          <File Name="nqp/MoarVM/src/6model/serialization.c"/>
+          <File Name="nqp/MoarVM/src/6model/6model.h"/>
+          <File Name="nqp/MoarVM/src/6model/sc.c"/>
+          <File Name="nqp/MoarVM/src/6model/bootstrap.h"/>
+          <File Name="nqp/MoarVM/src/6model/containers.c"/>
+          <File Name="nqp/MoarVM/src/6model/reprs.c"/>
+          <File Name="nqp/MoarVM/src/6model/serialization.h"/>
+          <File Name="nqp/MoarVM/src/6model/reprconv.h"/>
+          <File Name="nqp/MoarVM/src/6model/parametric.c"/>
+          <File Name="nqp/MoarVM/src/6model/6model.c"/>
+          <VirtualDirectory Name="reprs">
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMCode.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/P6int.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/CStruct.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMNull.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MultiDimArray.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/ReentrantMutex.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/CStr.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMStaticFrame.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/VMArray.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/P6opaque.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMDLLSym.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMAsyncTask.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMString.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMException.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/P6num.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/KnowHOWREPR.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/P6str.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/CPPStruct.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMHash.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMMultiCache.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/Decoder.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/CPointer.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMCallCapture.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/CArray.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/ConditionVariable.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/NativeRef.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/P6bigint.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMContinuation.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/SCRef.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMOSHandle.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMStaticFrameSpesh.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/Uninstantiable.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMThread.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMCompUnit.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/NFA.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/NativeCall.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/HashAttrStore.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/ConcBlockingQueue.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMContext.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/Semaphore.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMSpeshLog.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/CUnion.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMCFunction.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/KnowHOWAttributeREPR.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMIter.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/VMArray.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/P6opaque.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMStaticFrame.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/ReentrantMutex.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MultiDimArray.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMNull.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/CStr.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMCode.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/CStruct.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/P6int.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/P6bigint.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/SCRef.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMContinuation.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/CPointer.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/Decoder.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMMultiCache.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMHash.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/CPPStruct.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/NativeRef.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/ConditionVariable.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/CArray.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMCallCapture.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMString.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMException.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMAsyncTask.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/P6str.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/KnowHOWREPR.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/P6num.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMDLLSym.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/ConcBlockingQueue.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/HashAttrStore.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/NativeCall.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/NFA.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMCompUnit.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMOSHandle.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMStaticFrameSpesh.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMThread.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/Uninstantiable.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMIter.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/KnowHOWAttributeREPR.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMCFunction.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/CUnion.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMSpeshLog.c"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/Semaphore.h"/>
+            <File Name="nqp/MoarVM/src/6model/reprs/MVMContext.h"/>
+          </VirtualDirectory>
+        </VirtualDirectory>
+        <VirtualDirectory Name="instrument">
+          <File Name="nqp/MoarVM/src/instrument/line_coverage.h"/>
+          <File Name="nqp/MoarVM/src/instrument/crossthreadwrite.c"/>
+          <File Name="nqp/MoarVM/src/instrument/line_coverage.c"/>
+          <File Name="nqp/MoarVM/src/instrument/crossthreadwrite.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="core">
+          <File Name="nqp/MoarVM/src/core/continuation.c"/>
+          <File Name="nqp/MoarVM/src/core/threads.c"/>
+          <File Name="nqp/MoarVM/src/core/alloc.h"/>
+          <File Name="nqp/MoarVM/src/core/dll.c"/>
+          <File Name="nqp/MoarVM/src/core/intcache.c"/>
+          <File Name="nqp/MoarVM/src/core/fixedsizealloc.c"/>
+          <File Name="nqp/MoarVM/src/core/nativecall_libffi.c"/>
+          <File Name="nqp/MoarVM/src/core/interp.h"/>
+          <File Name="nqp/MoarVM/src/core/bitmap.h"/>
+          <File Name="nqp/MoarVM/src/core/vector.h"/>
+          <File Name="nqp/MoarVM/src/core/ext.h"/>
+          <File Name="nqp/MoarVM/src/core/exceptions.c"/>
+          <File Name="nqp/MoarVM/src/core/loadbytecode.h"/>
+          <File Name="nqp/MoarVM/src/core/callsite.h"/>
+          <File Name="nqp/MoarVM/src/core/frame.c"/>
+          <File Name="nqp/MoarVM/src/core/ops.h"/>
+          <File Name="nqp/MoarVM/src/core/instance.h"/>
+          <File Name="nqp/MoarVM/src/core/threadcontext.c"/>
+          <File Name="nqp/MoarVM/src/core/nativecall_dyncall.h"/>
+          <File Name="nqp/MoarVM/src/core/validation.h"/>
+          <File Name="nqp/MoarVM/src/core/nativecall.c"/>
+          <File Name="nqp/MoarVM/src/core/callstack.c"/>
+          <File Name="nqp/MoarVM/src/core/bytecodedump.h"/>
+          <File Name="nqp/MoarVM/src/core/compunit.h"/>
+          <File Name="nqp/MoarVM/src/core/bytecode.h"/>
+          <File Name="nqp/MoarVM/src/core/coerce.h"/>
+          <File Name="nqp/MoarVM/src/core/args.h"/>
+          <File Name="nqp/MoarVM/src/core/regionalloc.h"/>
+          <File Name="nqp/MoarVM/src/core/oplabels.h"/>
+          <File Name="nqp/MoarVM/src/core/hll.h"/>
+          <File Name="nqp/MoarVM/src/core/nativecall_libffi.h"/>
+          <File Name="nqp/MoarVM/src/core/fixedsizealloc.h"/>
+          <File Name="nqp/MoarVM/src/core/intcache.h"/>
+          <File Name="nqp/MoarVM/src/core/dll.h"/>
+          <File Name="nqp/MoarVM/src/core/threads.h"/>
+          <File Name="nqp/MoarVM/src/core/continuation.h"/>
+          <File Name="nqp/MoarVM/src/core/threadcontext.h"/>
+          <File Name="nqp/MoarVM/src/core/loadbytecode.c"/>
+          <File Name="nqp/MoarVM/src/core/exceptions.h"/>
+          <File Name="nqp/MoarVM/src/core/ops.c"/>
+          <File Name="nqp/MoarVM/src/core/frame.h"/>
+          <File Name="nqp/MoarVM/src/core/callsite.c"/>
+          <File Name="nqp/MoarVM/src/core/interp.c"/>
+          <File Name="nqp/MoarVM/src/core/ext.c"/>
+          <File Name="nqp/MoarVM/src/core/callstack.h"/>
+          <File Name="nqp/MoarVM/src/core/nativecall.h"/>
+          <File Name="nqp/MoarVM/src/core/validation.c"/>
+          <File Name="nqp/MoarVM/src/core/nativecall_dyncall.c"/>
+          <File Name="nqp/MoarVM/src/core/hll.c"/>
+          <File Name="nqp/MoarVM/src/core/args.c"/>
+          <File Name="nqp/MoarVM/src/core/regionalloc.c"/>
+          <File Name="nqp/MoarVM/src/core/coerce.c"/>
+          <File Name="nqp/MoarVM/src/core/bytecode.c"/>
+          <File Name="nqp/MoarVM/src/core/compunit.c"/>
+          <File Name="nqp/MoarVM/src/core/bytecodedump.c"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="strings">
+          <File Name="nqp/MoarVM/src/strings/shiftjis.c"/>
+          <File Name="nqp/MoarVM/src/strings/utf8.h"/>
+          <File Name="nqp/MoarVM/src/strings/utf8_c8.h"/>
+          <File Name="nqp/MoarVM/src/strings/utf16.h"/>
+          <File Name="nqp/MoarVM/src/strings/unicode_ops.h"/>
+          <File Name="nqp/MoarVM/src/strings/decode_stream.h"/>
+          <File Name="nqp/MoarVM/src/strings/unicode_uca.c"/>
+          <File Name="nqp/MoarVM/src/strings/ops.h"/>
+          <File Name="nqp/MoarVM/src/strings/normalize.c"/>
+          <File Name="nqp/MoarVM/src/strings/nfg.c"/>
+          <File Name="nqp/MoarVM/src/strings/parse_num.h"/>
+          <File Name="nqp/MoarVM/src/strings/latin1.c"/>
+          <File Name="nqp/MoarVM/src/strings/shiftjis_codeindex.c"/>
+          <File Name="nqp/MoarVM/src/strings/gb2312.c"/>
+          <File Name="nqp/MoarVM/src/strings/gb2312_codeindex.h"/>
+          <File Name="nqp/MoarVM/src/strings/windows1252.c"/>
+          <File Name="nqp/MoarVM/src/strings/unicode.h"/>
+          <File Name="nqp/MoarVM/src/strings/ascii.h"/>
+          <File Name="nqp/MoarVM/src/strings/unicode_ops.c"/>
+          <File Name="nqp/MoarVM/src/strings/utf16.c"/>
+          <File Name="nqp/MoarVM/src/strings/decode_stream.c"/>
+          <File Name="nqp/MoarVM/src/strings/utf8_c8.c"/>
+          <File Name="nqp/MoarVM/src/strings/uthash.h"/>
+          <File Name="nqp/MoarVM/src/strings/shiftjis.h"/>
+          <File Name="nqp/MoarVM/src/strings/utf8.c"/>
+          <File Name="nqp/MoarVM/src/strings/unicode_gen.h"/>
+          <File Name="nqp/MoarVM/src/strings/uthash_types.h"/>
+          <File Name="nqp/MoarVM/src/strings/normalize.h"/>
+          <File Name="nqp/MoarVM/src/strings/unicode_prop_macros.h"/>
+          <File Name="nqp/MoarVM/src/strings/ops.c"/>
+          <File Name="nqp/MoarVM/src/strings/unicode_db.c"/>
+          <File Name="nqp/MoarVM/src/strings/shiftjis_codeindex.h"/>
+          <File Name="nqp/MoarVM/src/strings/iter.h"/>
+          <File Name="nqp/MoarVM/src/strings/latin1.h"/>
+          <File Name="nqp/MoarVM/src/strings/parse_num.c"/>
+          <File Name="nqp/MoarVM/src/strings/nfg.h"/>
+          <File Name="nqp/MoarVM/src/strings/ascii.c"/>
+          <File Name="nqp/MoarVM/src/strings/unicode.c"/>
+          <File Name="nqp/MoarVM/src/strings/windows1252.h"/>
+          <File Name="nqp/MoarVM/src/strings/gb2312.h"/>
+          <VirtualDirectory Name="siphash">
+            <File Name="nqp/MoarVM/src/strings/siphash/test.c"/>
+            <File Name="nqp/MoarVM/src/strings/siphash/csiphash.h"/>
+          </VirtualDirectory>
+        </VirtualDirectory>
+      </VirtualDirectory>
+      <VirtualDirectory Name="3rdparty">
+        <VirtualDirectory Name="msinttypes">
+          <File Name="nqp/MoarVM/3rdparty/msinttypes/stdint.h"/>
+          <File Name="nqp/MoarVM/3rdparty/msinttypes/inttypes.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="dyncall">
+          <VirtualDirectory Name="autovar">
+            <File Name="nqp/MoarVM/3rdparty/dyncall/autovar/autovar_OSFAMILY.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/autovar/autovar_ABI.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/autovar/autovar_ARCH.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/autovar/autovar_OS.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/autovar/autovar_CC.h"/>
+          </VirtualDirectory>
+          <VirtualDirectory Name="dynload">
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dynload/dynload_syms.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dynload/dynload_syms_mach-o.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dynload/dynload_alloc.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dynload/dynload.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dynload/dynload_syms_elf.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dynload/dynload_windows.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dynload/dynload_darwin.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dynload/dynload_unix.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dynload/dynload_syms_pe.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dynload/dynload.c"/>
+          </VirtualDirectory>
+          <VirtualDirectory Name="dyncall">
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_value.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_config.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callf.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_call_mips.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_call_mips_o32.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_call_mips_eabi.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_call_mips_n32.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_arm64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_call_x64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_call_arm32_arm_armhf.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_call_sparc64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_x86.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_sparc_v9.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_call_arm32_thumb.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_sparc.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_arm32_arm.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_arm32_arm_armhf.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_call_ppc64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_struct.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_types.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_mips_n64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_signature.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_ppc32.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_sparc64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_arm32_thumb.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_mips.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_mips_o32.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_x64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_call_sparc.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_vector.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_ppc64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_mips_eabi.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_utils.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_arm64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_call_ppc32.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_macros.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_base.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callf.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_alloc.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_arm32_arm_armhf.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_arm32_arm.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_sparc.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_call_mips_n64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_api.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_sparc_v9.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_x86.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_sparc64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_call_arm64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_call_arm32_arm.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_call_sparc_v9.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_ppc32.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_struct.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_mips_n64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_mips_eabi.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_ppc64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_vector.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_mips_o32.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_mips.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_x64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_arm32_thumb.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_call_x86.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncall/dyncall_callvm_mips_n32.c"/>
+          </VirtualDirectory>
+          <VirtualDirectory Name="dyncallback">
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_ppc32.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_sparc32.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_x64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_ppc64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_arm32_thumb.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_arm32_arm.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_alloc_wx_win32.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_ppc32.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_x86.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_x86.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_arm32_arm.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_arm32_arm.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_ppc64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_ppc32.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_mips.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_arm32_thumb.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_ppc64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_x86.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_mips.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_arm64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_ppc32_sysv.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_sparc64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_sparc64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_x64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_arm32_thumb.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_arm64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_x64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_arm64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_mips.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_alloc_wx.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_sparc32.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_sparc32.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_x86.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_x86.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_ppc32.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_arm32_thumb.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_arm32_arm.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_ppc32.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_ppc64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_x64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_sparc32.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_arm32_thumb.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_ppc32_sysv.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_ppc64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_mips.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_ppc64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_arm32_arm.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_sparc64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_ppc32.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_arm32_arm.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_callback_x64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_x64.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_arm64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_arm32_thumb.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_sparc64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_sparc64.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_mips.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_x86.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_thunk_sparc32.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_alloc_wx.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_sparc32.h"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_args_mips.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_alloc_wx_mmap.c"/>
+            <File Name="nqp/MoarVM/3rdparty/dyncall/dyncallback/dyncall_alloc_wx_malloc.c"/>
+          </VirtualDirectory>
+          <VirtualDirectory Name="test">
+            <VirtualDirectory Name="suite2_x86win32fast">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite2_x86win32fast/case.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite2_x86win32fast/case.cc"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite2_x86win32fast/config.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite2_x86win32fast/funcinfo.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite2_x86win32fast/main.cc"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="sign">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/sign/sign.c"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="ellipsis">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/ellipsis/case.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/ellipsis/ellipsis.cc"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/ellipsis/config.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/ellipsis/main.cc"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="syscall">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/syscall/syscall.c"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="suite">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite/case.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite/main.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite/case.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite/config.h"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="suite2_x86win32std">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite2_x86win32std/case.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite2_x86win32std/case.cc"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite2_x86win32std/config.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite2_x86win32std/funcinfo.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite2_x86win32std/main.cc"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="suite2">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite2/case.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite2/case.cc"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite2/config.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite2/funcinfo.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite2/main.cc"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="suite3">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite3/case.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite3/case.cc"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite3/config.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite3/main.cc"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="callback_plain">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_plain/callback_plain.c"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="suite_x86win32fast">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite_x86win32fast/case.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite_x86win32fast/case.cc"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite_x86win32fast/config.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite_x86win32fast/main.cc"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="nm">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/nm/nm.c"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="hacking-arm-thumb-interwork">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/hacking-arm-thumb-interwork/thumb.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/hacking-arm-thumb-interwork/arm.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/hacking-arm-thumb-interwork/test.c"/>
+              <VirtualDirectory Name="diff-gcc-defs">
+                <File Name="nqp/MoarVM/3rdparty/dyncall/test/hacking-arm-thumb-interwork/diff-gcc-defs/empty.c"/>
+              </VirtualDirectory>
+            </VirtualDirectory>
+            <VirtualDirectory Name="common">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/common/platformInit.h"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="samples">
+              <VirtualDirectory Name="composite">
+                <File Name="nqp/MoarVM/3rdparty/dyncall/test/samples/composite/args.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="calls">
+                <File Name="nqp/MoarVM/3rdparty/dyncall/test/samples/calls/f20.c"/>
+                <File Name="nqp/MoarVM/3rdparty/dyncall/test/samples/calls/d20.c"/>
+                <File Name="nqp/MoarVM/3rdparty/dyncall/test/samples/calls/fd40.c"/>
+                <File Name="nqp/MoarVM/3rdparty/dyncall/test/samples/calls/d16.c"/>
+                <File Name="nqp/MoarVM/3rdparty/dyncall/test/samples/calls/many.c"/>
+                <File Name="nqp/MoarVM/3rdparty/dyncall/test/samples/calls/i3.c"/>
+                <File Name="nqp/MoarVM/3rdparty/dyncall/test/samples/calls/i7.c"/>
+                <File Name="nqp/MoarVM/3rdparty/dyncall/test/samples/calls/f16.c"/>
+                <File Name="nqp/MoarVM/3rdparty/dyncall/test/samples/calls/id40.c"/>
+                <File Name="nqp/MoarVM/3rdparty/dyncall/test/samples/calls/l16.c"/>
+                <File Name="nqp/MoarVM/3rdparty/dyncall/test/samples/calls/f40.c"/>
+                <File Name="nqp/MoarVM/3rdparty/dyncall/test/samples/calls/d40.c"/>
+              </VirtualDirectory>
+            </VirtualDirectory>
+            <VirtualDirectory Name="suite_floats">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite_floats/case.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite_floats/case.cc"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite_floats/config.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite_floats/main.cc"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="resolve_self">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/resolve_self/main.c"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="hacking-mips">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/hacking-mips/node.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/hacking-mips/funs.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/hacking-mips/call.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/hacking-mips/retn.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/hacking-mips/f.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/hacking-mips/f0.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/hacking-mips/main.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/hacking-mips/common.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/hacking-mips/prolog.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/hacking-mips/dispatch.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/hacking-mips/calls.c"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="sharedlib">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/sharedlib/sharedlib.c"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="suite_x86win32std">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite_x86win32std/case.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite_x86win32std/case.cc"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite_x86win32std/config.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/suite_x86win32std/main.cc"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="plain">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/plain/test_main.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/plain/test_structs.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/plain/test_framework.h"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="malloc_wx">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/malloc_wx/test_wx.c"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="call_suite">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/call_suite/cases.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/call_suite/globals.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/call_suite/main.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/call_suite/globals.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/call_suite/cases.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/call_suite/invoke.c"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="thunk">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/thunk/test_thunk.c"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="callback_suite">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/_auto_invokers.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/do_test.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/signature_utils.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/_auto_invoke_macros.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/_auto_config.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/dyncall_value_set.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/print.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/sigstrings.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/invokers.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/main.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/env.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/_auto_sigstrings.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/handler.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/signature_utils.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/invokers.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/print.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/sigstrings.c"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/env.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callback_suite/_auto_invoke_table.h"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="plain_c++">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/plain_c++/test_framework.h"/>
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/plain_c++/test_main.cc"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="callf">
+              <File Name="nqp/MoarVM/3rdparty/dyncall/test/callf/main.c"/>
+            </VirtualDirectory>
+          </VirtualDirectory>
+        </VirtualDirectory>
+        <VirtualDirectory Name="tinymt">
+          <File Name="nqp/MoarVM/3rdparty/tinymt/tinymt64.c"/>
+          <File Name="nqp/MoarVM/3rdparty/tinymt/tinymt64.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="sha1">
+          <File Name="nqp/MoarVM/3rdparty/sha1/sha1.h"/>
+          <File Name="nqp/MoarVM/3rdparty/sha1/sha1.c"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="freebsd">
+          <File Name="nqp/MoarVM/3rdparty/freebsd/memmem.c"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="dynasm">
+          <File Name="nqp/MoarVM/3rdparty/dynasm/dasm_mips.h"/>
+          <File Name="nqp/MoarVM/3rdparty/dynasm/dasm_proto.h"/>
+          <File Name="nqp/MoarVM/3rdparty/dynasm/dasm_ppc.h"/>
+          <File Name="nqp/MoarVM/3rdparty/dynasm/minilua.c"/>
+          <File Name="nqp/MoarVM/3rdparty/dynasm/dasm_x86.h"/>
+          <File Name="nqp/MoarVM/3rdparty/dynasm/dasm_arm.h"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="libatomicops">
+          <VirtualDirectory Name="src">
+            <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops_stack.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops_malloc.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libatomicops/src/config.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops_malloc.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops_stack.c"/>
+            <VirtualDirectory Name="atomic_ops">
+              <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/ao_version.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/generalize.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/generalize-small.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/generalize-arithm.h"/>
+              <VirtualDirectory Name="sysdeps">
+                <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/generic_pthread.h"/>
+                <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/ordered_except_wr.h"/>
+                <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/test_and_set_t_is_char.h"/>
+                <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/all_acquire_release_volatile.h"/>
+                <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/ao_t_is_int.h"/>
+                <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/all_atomic_load_store.h"/>
+                <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/ordered.h"/>
+                <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/standard_ao_double_t.h"/>
+                <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/read_ordered.h"/>
+                <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/emul_cas.h"/>
+                <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/all_aligned_atomic_load_store.h"/>
+                <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/all_atomic_only_load.h"/>
+                <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/test_and_set_t_is_ao_t.h"/>
+                <VirtualDirectory Name="loadstore">
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/loadstore/ordered_loads_only.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/loadstore/int_acquire_release_volatile.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/loadstore/char_acquire_release_volatile.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/loadstore/int_atomic_load.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/loadstore/ordered_stores_only.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/loadstore/int_atomic_store.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/loadstore/atomic_load.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/loadstore/atomic_store.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/loadstore/char_atomic_load.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/loadstore/char_atomic_store.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/loadstore/short_atomic_load.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/loadstore/short_atomic_store.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/loadstore/acquire_release_volatile.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/loadstore/short_acquire_release_volatile.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/loadstore/double_atomic_load_store.h"/>
+                </VirtualDirectory>
+                <VirtualDirectory Name="armcc">
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/armcc/arm_v6.h"/>
+                </VirtualDirectory>
+                <VirtualDirectory Name="ibmc">
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/ibmc/powerpc.h"/>
+                </VirtualDirectory>
+                <VirtualDirectory Name="hpc">
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/hpc/hppa.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/hpc/ia64.h"/>
+                </VirtualDirectory>
+                <VirtualDirectory Name="icc">
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/icc/ia64.h"/>
+                </VirtualDirectory>
+                <VirtualDirectory Name="gcc">
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/aarch64.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/s390.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/generic-arithm.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/x86.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/hppa.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/alpha.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/arm.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/avr32.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/ia64.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/tile.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/sh.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/powerpc.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/m68k.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/cris.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/generic-small.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/sparc.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/nios2.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/mips.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/generic.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/gcc/hexagon.h"/>
+                </VirtualDirectory>
+                <VirtualDirectory Name="sunc">
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/sunc/x86.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/sunc/sparc.h"/>
+                </VirtualDirectory>
+                <VirtualDirectory Name="msftc">
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/msftc/x86_64.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/msftc/x86.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/msftc/arm.h"/>
+                  <File Name="nqp/MoarVM/3rdparty/libatomicops/src/atomic_ops/sysdeps/msftc/common32_defs.h"/>
+                </VirtualDirectory>
+              </VirtualDirectory>
+            </VirtualDirectory>
+          </VirtualDirectory>
+          <VirtualDirectory Name="tests">
+            <File Name="nqp/MoarVM/3rdparty/libatomicops/tests/test_atomic.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libatomicops/tests/run_parallel.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libatomicops/tests/test_malloc.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libatomicops/tests/test_stack.c"/>
+          </VirtualDirectory>
+        </VirtualDirectory>
+        <VirtualDirectory Name="libuv">
+          <VirtualDirectory Name="src">
+            <File Name="nqp/MoarVM/3rdparty/libuv/src/strscpy.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/src/queue.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/src/uv-common.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/src/uv-data-getter-setters.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/src/heap-inl.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/src/inet.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/src/fs-poll.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/src/version.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/src/threadpool.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/src/idna.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/src/strscpy.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/src/uv-common.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/src/timer.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/src/idna.c"/>
+            <VirtualDirectory Name="unix">
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/os390-syscalls.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/kqueue.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/stream.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/cygwin.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/pthread-fixes.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/posix-hrtime.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/no-fsevents.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/linux-syscalls.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/sysinfo-memory.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/dl.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/signal.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/sysinfo-loadavg.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/bsd-proctitle.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/tty.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/no-proctitle.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/netbsd.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/getnameinfo.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/proctitle.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/getaddrinfo.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/tcp.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/procfs-exepath.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/core.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/openbsd.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/fs.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/udp.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/os390-syscalls.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/posix-poll.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/darwin.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/bsd-ifaddrs.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/poll.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/fsevents.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/linux-syscalls.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/os390.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/ibmi.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/linux-core.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/aix-common.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/aix.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/sunos.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/loop.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/loop-watcher.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/pipe.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/atomic-ops.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/freebsd.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/process.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/internal.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/android-ifaddrs.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/async.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/darwin-proctitle.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/linux-inotify.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/spinlock.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/unix/thread.c"/>
+            </VirtualDirectory>
+            <VirtualDirectory Name="win">
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/handle-inl.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/stream.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/dl.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/signal.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/req-inl.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/fs-event.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/tty.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/atomicops-inl.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/getnameinfo.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/error.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/getaddrinfo.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/tcp.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/snprintf.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/winapi.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/core.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/winsock.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/process-stdio.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/fs.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/udp.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/detect-wakeup.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/poll.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/handle.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/loop-watcher.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/util.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/pipe.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/stream-inl.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/process.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/internal.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/winsock.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/async.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/winapi.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/src/win/thread.c"/>
+            </VirtualDirectory>
+          </VirtualDirectory>
+          <VirtualDirectory Name="samples">
+            <VirtualDirectory Name="socks5-proxy">
+              <File Name="nqp/MoarVM/3rdparty/libuv/samples/socks5-proxy/getopt.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/samples/socks5-proxy/s5.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/samples/socks5-proxy/main.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/samples/socks5-proxy/client.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/samples/socks5-proxy/server.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/samples/socks5-proxy/s5.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/samples/socks5-proxy/util.c"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/samples/socks5-proxy/defs.h"/>
+            </VirtualDirectory>
+          </VirtualDirectory>
+          <VirtualDirectory Name="docs">
+            <VirtualDirectory Name="code">
+              <VirtualDirectory Name="interfaces">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/interfaces/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="onchange">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/onchange/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="spawn">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/spawn/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="signal">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/signal/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="proc-streams">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/proc-streams/test.c"/>
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/proc-streams/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="dns">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/dns/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="uvcat">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/uvcat/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="multi-echo-server">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/multi-echo-server/main.c"/>
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/multi-echo-server/worker.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="uvtee">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/uvtee/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="tty-gravity">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/tty-gravity/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="queue-work">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/queue-work/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="idle-basic">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/idle-basic/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="udp-dhcp">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/udp-dhcp/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="idle-compute">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/idle-compute/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="cgi">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/cgi/tick.c"/>
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/cgi/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="queue-cancel">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/queue-cancel/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="tcp-echo-server">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/tcp-echo-server/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="plugin">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/plugin/main.c"/>
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/plugin/plugin.h"/>
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/plugin/hello.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="uvwget">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/uvwget/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="ref-timer">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/ref-timer/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="progress">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/progress/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="uvstop">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/uvstop/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="tty">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/tty/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="detach">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/detach/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="thread-create">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/thread-create/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="helloworld">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/helloworld/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="locks">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/locks/main.c"/>
+              </VirtualDirectory>
+              <VirtualDirectory Name="pipe-echo-server">
+                <File Name="nqp/MoarVM/3rdparty/libuv/docs/code/pipe-echo-server/main.c"/>
+              </VirtualDirectory>
+            </VirtualDirectory>
+          </VirtualDirectory>
+          <VirtualDirectory Name="include">
+            <File Name="nqp/MoarVM/3rdparty/libuv/include/uv.h"/>
+            <VirtualDirectory Name="uv">
+              <File Name="nqp/MoarVM/3rdparty/libuv/include/uv/unix.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/include/uv/win.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/include/uv/sunos.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/include/uv/aix.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/include/uv/stdint-msvc2008.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/include/uv/os390.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/include/uv/darwin.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/include/uv/errno.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/include/uv/posix.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/include/uv/android-ifaddrs.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/include/uv/tree.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/include/uv/linux.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/include/uv/threadpool.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/include/uv/bsd.h"/>
+              <File Name="nqp/MoarVM/3rdparty/libuv/include/uv/version.h"/>
+            </VirtualDirectory>
+          </VirtualDirectory>
+          <VirtualDirectory Name="test">
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-homedir.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-alloc-cb-fail.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-pipe-close-stdout-read-stdin.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-pipe-connect-error.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-fail-always.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-gettimeofday.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-async.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-idna.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-multicast-ttl.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-run-nowait.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/runner-unix.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-multicast-join.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-get-memory.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-write-to-half-open-connection.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-read-stop.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-uname.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-signal.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-process-title-threadsafe.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-process-title.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-embed.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-gethostname.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-poll-close.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-threadpool.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-get-loadavg.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-thread.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/runner-win.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-timer-again.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-error.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-socket-buffer-size.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-fork.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-pipe-bind-error.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-fs-copyfile.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-strscpy.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-hrtime.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-connect-timeout.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-multi-accept.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tty.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-ipc-send-recv.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-mutexes.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-writealot.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-million-timers.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-loop-time.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-open.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-create-socket-early.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-pipe-connect-multiple.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-ipv6.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-shutdown-twice.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-poll.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-loop-stop.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-spawn.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-fs-stat.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/runner.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-loop-configure.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-default-loop-close.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-cwd-and-chdir.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-million-async.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-ipc.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-ipc-heavy-traffic-deadlock-bug.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-fs-event.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-bind.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-connect6-error.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-thread-equal.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-stdio-over-pipes.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-fs.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-udp-pummel.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-connect-error.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-queue-foreach-delete.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-poll-oob.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-ping-pongs.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-process-priority.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-async-null-cb.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-ip4-addr.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/dns-server.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-list.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-unexpected-read.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-dgram-too-big.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-close-fd.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-loop-handles.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-walk-handles.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-dlerror.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-getters-setters.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-getaddrinfo.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-multiple-listen.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/runner-unix.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-pipe-set-fchmod.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-getsockname.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-connect.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-tcp-write-batch.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-pump.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/echo-server.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-env-vars.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-pipe-getsockname.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-close-accept.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-bind-error.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-fs-poll.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-write-queue-order.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-send-immediate.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tty-duplicate-key.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-get-passwd.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-send-unreachable.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-fs-readdir.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-condvar.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-close-order.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-timer-from-check.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-pipe-connect-prepare.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-pipe-pending-instances.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-platform-output.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-handle-fileno.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-poll-closesocket.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-timer.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/runner-win.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-async-pummel.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-sizes.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-write-fail.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-pipe-sendmsg.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-signal-multiple-loops.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-ip6-addr.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-loop-count.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-options.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-list.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-threadpool-cancel.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-async.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-pass-always.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-send-hang-loop.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-write-after-connect.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-getnameinfo.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-try-send.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-loop-close.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-connect-error-after-write.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-semaphore.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-shutdown-close.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-osx-select.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-bind6-error.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-multicast-interface6.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-emfile.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-close.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/runner.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-send-and-recv.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-ref.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-alloc-cb-fail.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-callback-order.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-pound.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-get-currentexe.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-getaddrinfo.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-pipe-set-non-blocking.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-connect-unspecified.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-multicast-join6.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-oob.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-open.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-udp-multicast-interface.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-ping-pong.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-close-while-connecting.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-try-write.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-loop-alive.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-idle.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/benchmark-spawn.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/run-benchmarks.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tmpdir.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-create-socket-early.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-connection-fail.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/task.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-delayed-accept.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-shutdown-eof.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-watcher-cross-stop.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-run-once.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-pipe-server-close.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-thread.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-eintr-handling.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-flags.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-barrier.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/blackhole-server.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-callback-stack.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-poll-close-doesnt-corrupt-stack.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-tcp-shutdown-after-write.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/test-active.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libuv/test/run-tests.c"/>
+          </VirtualDirectory>
+        </VirtualDirectory>
+        <VirtualDirectory Name="libtommath">
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_read_signed_bin.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_prime_random_ex.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_unsigned_bin_size.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_toradix.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_div_3.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_import.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_toom_mul.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_mulmod.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_get_long_long.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_mul_2.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bncore.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_dr_is_modulus.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_sqrmod.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_karatsuba_sqr.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_add_d.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/tommath.h"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_reduce_2k.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_montgomery_setup.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_read_unsigned_bin.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_s_mp_exptmod.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_mul_2d.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_expt_d_ex.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_rand.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_expt_d.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_mul.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_gcd.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_fast_mp_montgomery_reduce.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_sub_d.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_prime_next_prime.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_exch.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_s_mp_add.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_reduce_2k_setup.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_div_2d.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_set.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_s_mp_sub.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_read_radix.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_or.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_reduce_setup.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_exptmod.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_xor.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_clear.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_div.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_radix_smap.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_prime_is_prime.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_init.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_addmod.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_sqr.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_zero.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_prime_miller_rabin.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_montgomery_calc_normalization.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_mod.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_jacobi.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_reduce.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_fread.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_toradix_n.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_toom_sqr.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_div_d.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/tommath_superclass.h"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_fast_s_mp_mul_high_digs.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_init_copy.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_to_signed_bin_n.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_to_unsigned_bin_n.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_karatsuba_mul.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_copy.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_dr_setup.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_clamp.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_neg.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_exteuclid.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_montgomery_reduce.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_reverse.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_submod.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_init_size.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_dr_reduce.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_invmod.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_init_set.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/tommath_class.h"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_set_long.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_reduce_is_2k.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_init_set_int.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_init_multi.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_sqrtmod_prime.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_mod_d.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_signed_bin_size.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_sqrt.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_is_square.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_lcm.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_get_long.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_to_signed_bin.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_exptmod_fast.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_cmp_d.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_and.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_n_root.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_prime_rabin_miller_trials.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_reduce_is_2k_l.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_lshd.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_fast_s_mp_mul_digs.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_fwrite.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_mul_d.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_to_unsigned_bin.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_s_mp_mul_digs.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_rshd.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_div_2.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_reduce_2k_setup_l.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_fast_mp_invmod.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_s_mp_mul_high_digs.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_abs.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_get_int.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_shrink.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_prime_fermat.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_n_root_ex.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_grow.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_add.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_cmp.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_export.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_error.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_set_int.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/tommath_private.h"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_clear_multi.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_count_bits.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_prime_is_divisible.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_set_long_long.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_invmod_slow.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_reduce_2k_l.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_sub.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_mod_2d.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_2expt.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_cnt_lsb.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_fast_s_mp_sqr.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_cmp_mag.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_mp_radix_size.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_prime_tab.c"/>
+          <File Name="nqp/MoarVM/3rdparty/libtommath/bn_s_mp_sqr.c"/>
+          <VirtualDirectory Name="pre_gen">
+            <File Name="nqp/MoarVM/3rdparty/libtommath/pre_gen/mpi.c"/>
+          </VirtualDirectory>
+          <VirtualDirectory Name="etc">
+            <File Name="nqp/MoarVM/3rdparty/libtommath/etc/drprime.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libtommath/etc/tune.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libtommath/etc/pprime.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libtommath/etc/2kprime.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libtommath/etc/mersenne.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libtommath/etc/mont.c"/>
+          </VirtualDirectory>
+          <VirtualDirectory Name="mtest">
+            <File Name="nqp/MoarVM/3rdparty/libtommath/mtest/mpi.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libtommath/mtest/mpi-types.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libtommath/mtest/mtest.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libtommath/mtest/mpi.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libtommath/mtest/mpi-config.h"/>
+            <File Name="nqp/MoarVM/3rdparty/libtommath/mtest/logtab.h"/>
+          </VirtualDirectory>
+          <VirtualDirectory Name="demo">
+            <File Name="nqp/MoarVM/3rdparty/libtommath/demo/timing.c"/>
+            <File Name="nqp/MoarVM/3rdparty/libtommath/demo/demo.c"/>
+          </VirtualDirectory>
+        </VirtualDirectory>
+        <VirtualDirectory Name="cmp">
+          <File Name="nqp/MoarVM/3rdparty/cmp/cmp.c"/>
+          <File Name="nqp/MoarVM/3rdparty/cmp/cmp.h"/>
+          <VirtualDirectory Name="examples">
+            <File Name="nqp/MoarVM/3rdparty/cmp/examples/example1.c"/>
+            <File Name="nqp/MoarVM/3rdparty/cmp/examples/example2.c"/>
+          </VirtualDirectory>
+          <VirtualDirectory Name="test">
+            <File Name="nqp/MoarVM/3rdparty/cmp/test/buf.c"/>
+            <File Name="nqp/MoarVM/3rdparty/cmp/test/test.c"/>
+            <File Name="nqp/MoarVM/3rdparty/cmp/test/utils.c"/>
+            <File Name="nqp/MoarVM/3rdparty/cmp/test/buf.h"/>
+            <File Name="nqp/MoarVM/3rdparty/cmp/test/utils.h"/>
+          </VirtualDirectory>
+        </VirtualDirectory>
+      </VirtualDirectory>
+      <VirtualDirectory Name="tools">
+        <File Name="nqp/MoarVM/tools/repr_size_table.c"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="tools">
+      <VirtualDirectory Name="templates">
+        <VirtualDirectory Name="windows">
+          <File Name="nqp/tools/templates/windows/nqp-m-build.c"/>
+        </VirtualDirectory>
+        <VirtualDirectory Name="unix">
+          <File Name="nqp/tools/templates/unix/nqp-m-build.c"/>
+        </VirtualDirectory>
+      </VirtualDirectory>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="t">
+    <File Name="t/spectest.data.6.c"/>
+    <VirtualDirectory Name="04-nativecall">
+      <File Name="t/04-nativecall/02-simple-args.c"/>
+      <File Name="t/04-nativecall/04-pointers.c"/>
+      <File Name="t/04-nativecall/11-cpp.cpp"/>
+      <File Name="t/04-nativecall/06-struct.c"/>
+      <File Name="t/04-nativecall/21-callback-other-thread.c"/>
+      <File Name="t/04-nativecall/09-nativecast.c"/>
+      <File Name="t/04-nativecall/22-method.c"/>
+      <File Name="t/04-nativecall/13-cpp-mangling.cpp"/>
+      <File Name="t/04-nativecall/07-writebarrier.c"/>
+      <File Name="t/04-nativecall/03-simple-returns.c"/>
+      <File Name="t/04-nativecall/15-rw-args.c"/>
+      <File Name="t/04-nativecall/14-rw-attrs.c"/>
+      <File Name="t/04-nativecall/05-arrays.c"/>
+      <File Name="t/04-nativecall/01-argless.c"/>
+      <File Name="t/04-nativecall/12-sizeof.c"/>
+      <File Name="t/04-nativecall/08-callbacks.c"/>
+      <File Name="t/04-nativecall/19-function-pointers.c"/>
+      <File Name="t/04-nativecall/13-union.c"/>
+      <File Name="t/04-nativecall/10-cglobals.c"/>
+      <File Name="t/04-nativecall/20-concurrent.c"/>
+      <File Name="t/04-nativecall/00-misc.c"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <Description/>
+  <Dependencies/>
+  <Settings Type="Dynamic Library">
+    <GlobalSettings>
+      <Compiler Options="" C_Options="" Assembler="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="clang++" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g" C_Options="-g" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="" IntermediateDirectory="./Debug" Command="" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="yes">
+        <RebuildCommand/>
+        <CleanCommand>make clean</CleanCommand>
+        <BuildCommand>make</BuildCommand>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory>$(WorkspacePath)</WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="clang++" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="-O2" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="" IntermediateDirectory="./Release" Command="" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="yes">
+        <RebuildCommand/>
+        <CleanCommand>make clean</CleanCommand>
+        <BuildCommand>make</BuildCommand>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory>$(WorkspacePath)</WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+</CodeLite_Project>

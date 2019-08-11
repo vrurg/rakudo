@@ -68,7 +68,9 @@ class CompUnit::Repository::FileSystem does CompUnit::Repository::Locally does C
 
         --> CompUnit:D)
     {
+        note("CompUnit::Repo::FileSystem: need(", ~$spec, ")") if %*ENV<RAKUDO_DEBUG>;
         return $_ with %!loaded{~$spec};
+        note("CompUnit::Repo::FileSystem: need(", ~$spec, ") wasn't loaded") if %*ENV<RAKUDO_DEBUG>;
 
         with self!matching-dist($spec) {
             my $name = $spec.short-name;
@@ -76,6 +78,7 @@ class CompUnit::Repository::FileSystem does CompUnit::Repository::Locally does C
             my $*DISTRIBUTION  = $_;
             my $*RESOURCES     = Distribution::Resources.new(:repo(self), :dist-id(''));
             my $source-handle  = $_.content($_.meta<provides>{$name});
+            note("CompUnit::Repo::FileSystem: need(", ~$spec, "), name«$name», id«$id», loading pre-comp(", $precomp.^name, ") from ", $source-handle.path.absolute) if %*ENV<RAKUDO_DEBUG>;
             my $precomp-handle = $precomp.try-load(
                 CompUnit::PrecompilationDependency::File.new(
                     :$id,
@@ -85,6 +88,23 @@ class CompUnit::Repository::FileSystem does CompUnit::Repository::Locally does C
                 :@precomp-stores,
             );
 
+            if %*ENV<RAKUDO_DEBUG> {
+                note("CompUnit::Repo::FileSystem: need(", ~$spec, ") is now loaded, pre-comp: ", $precomp-handle.WHICH);
+                if $precomp-handle && ($name ~~ m/CopySnapshot | GetLaunchTemplateData/) {
+                    sub dump-ns(Mu \stash, :$level = 1) {
+                        my $pfx = "  " x $level;
+                        for stash.keys.sort -> $stsym {
+                            my Mu \stval = stash.AT-KEY($stsym);
+                            note("{$pfx}stash sym: $stsym => ", stval.^name);
+                            if stval.HOW ~~ Perl6::Metamodel::PackageHOW {
+                                dump-ns(stval.WHO, level => $level + 1);
+                            }
+                        }
+                    }
+
+                    dump-ns($precomp-handle.globalish-package);
+                }
+            }
             return %!loaded{~$spec} = CompUnit.new(
                 :short-name($name),
                 :handle($precomp-handle // CompUnit::Loader.load-source($source-handle.open(:bin).slurp(:close))),
