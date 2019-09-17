@@ -301,20 +301,24 @@ my class Map does Iterable does Associative { # declared in BOOTSTRAP
           nqp::elems(my \other := nqp::getattr(map,Map,'$!storage')),
           nqp::stmts(
             (my \iter := nqp::iterator(other)),
-            nqp::while(
-              iter,
-              nqp::bindkey(
-                $!storage,
-                nqp::iterkey_s(nqp::shift(iter)),
-                nqp::stmts(
-                  (my \val := nqp::iterval(iter)),
-                  nqp::if(
-                    $DECONT,
-                    nqp::decont(val),
-                    val
+            nqp::if(
+                $DECONT,
+                nqp::while(
+                  iter,
+                  nqp::bindkey(
+                    $!storage,
+                    nqp::iterkey_s(nqp::shift(iter)),
+                    nqp::decont(nqp::iterval(iter))
+                  )
+                ),
+                nqp::while(
+                  iter,
+                  nqp::bindkey(
+                    $!storage,
+                    nqp::iterkey_s(nqp::shift(iter)),
+                    nqp::iterval(iter)
                   )
                 )
-              )
             )
           )
         )
@@ -328,23 +332,30 @@ my class Map does Iterable does Associative { # declared in BOOTSTRAP
           nqp::elems(my \other := nqp::getattr(map,Map,'$!storage')),
           nqp::stmts(
             (my \iter := nqp::iterator(other)),
-            nqp::while(
-              iter,
-              nqp::bindkey(
-                $!storage,
-                nqp::getattr(
-                  (my \pair := nqp::iterval(nqp::shift(iter))),
-                  Pair, '$!key'
-                ).Str,
-                nqp::stmts(
-                  (my \val := nqp::getattr(pair,Pair,'$!value')),
-                  nqp::if(
-                    $DECONT,
-                    nqp::decont(val),
-                    val
+            nqp::if(
+                $DECONT,
+                nqp::while(
+                  iter,
+                  nqp::bindkey(
+                    $!storage,
+                    nqp::getattr(
+                      (my Mu $pair := nqp::iterval(nqp::shift(iter))),
+                      Pair, '$!key'
+                    ).Str,
+                    nqp::decont(nqp::getattr($pair,Pair,'$!value'))
+                  )
+                ),
+                nqp::while(
+                  iter,
+                  nqp::bindkey(
+                    $!storage,
+                    nqp::getattr(
+                      ($pair := nqp::iterval(nqp::shift(iter))),
+                      Pair, '$!key'
+                    ).Str,
+                    nqp::getattr($pair,Pair,'$!value')
                   )
                 )
-              )
             )
           )
         )
@@ -362,36 +373,59 @@ my class Map does Iterable does Associative { # declared in BOOTSTRAP
     # Store the contents of an iterator into the Map
     method !STORE_MAP_FROM_ITERATOR(\iter, :$DECONT? --> Map:D) is raw {
         nqp::stmts(
-          nqp::until(
-            nqp::eqaddr((my Mu $x := iter.pull-one),IterationEnd),
-            nqp::if(
-              nqp::istype($x,Pair),
-              nqp::bindkey(
-                $!storage,
-                nqp::getattr(nqp::decont($x),Pair,'$!key').Str,
-                nqp::stmts(
-                  (my \val := nqp::getattr(nqp::decont($x),Pair,'$!value')),
+          nqp::if(
+            $DECONT,
+            nqp::until(
+              nqp::eqaddr((my Mu $x := iter.pull-one),IterationEnd),
+              nqp::if(
+                nqp::istype($x,Pair),
+                nqp::bindkey(
+                  $!storage,
+                  nqp::getattr(nqp::decont($x),Pair,'$!key').Str,
+                  nqp::decont(nqp::getattr(nqp::decont($x),Pair,'$!value'))
+                ),
+                nqp::if(
+                  (nqp::istype($x,Map) && nqp::not_i(nqp::iscont($x))),
+                  self!STORE_MAP($x, :$DECONT),
                   nqp::if(
-                    $DECONT,
-                    nqp::decont(val),
-                    val
+                    nqp::eqaddr((my Mu $y := iter.pull-one),IterationEnd),
+                    nqp::if(
+                      nqp::istype($x,Failure),
+                      $x.throw,
+                      X::Hash::Store::OddNumber.new(
+                        found => self.elems * 2 + 1,
+                        last  => $x
+                      ).throw
+                    ),
+                    nqp::bindkey($!storage,$x.Str,nqp::decont($y))
                   )
                 )
-              ),
+              )
+            ),
+            nqp::until(
+              nqp::eqaddr(($x := iter.pull-one),IterationEnd),
               nqp::if(
-                (nqp::istype($x,Map) && nqp::not_i(nqp::iscont($x))),
-                self!STORE_MAP($x, :$DECONT),
+                nqp::istype($x,Pair),
+                nqp::bindkey(
+                  $!storage,
+                  nqp::getattr(nqp::decont($x),Pair,'$!key').Str,
+                  nqp::getattr(nqp::decont($x),Pair,'$!value')
+                ),
                 nqp::if(
-                  nqp::eqaddr((my Mu $y := iter.pull-one),IterationEnd),
+                  (nqp::istype($x,Map) && nqp::not_i(nqp::iscont($x))),
+                  self!STORE_MAP($x),
                   nqp::if(
-                    nqp::istype($x,Failure),
-                    $x.throw,
-                    X::Hash::Store::OddNumber.new(
-                      found => self.elems * 2 + 1,
-                      last  => $x
-                    ).throw
-                  ),
-                  nqp::bindkey($!storage,$x.Str,nqp::if($DECONT,nqp::decont($y),$y))
+                    nqp::eqaddr(($y := iter.pull-one),IterationEnd),
+                    nqp::if(
+                      nqp::istype($x,Failure),
+                      $x.throw,
+                      X::Hash::Store::OddNumber.new(
+                        found => self.elems * 2 + 1,
+                        last  => $x
+                      ).throw
+                    ),
+                    nqp::bindkey($!storage,$x.Str,$y)
+                  )
                 )
               )
             )
