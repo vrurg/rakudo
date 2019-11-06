@@ -1299,6 +1299,22 @@ class Perl6::Actions is HLL::Actions does STDActions {
             statementlist_with_handlers($/)
         );
 
+        my $stash-type := $*W.find_symbol(['Stash'], :setting-only);
+        my $glob-who := $*GLOBALish.WHO;
+        if nqp::istype($glob-who, $stash-type) {
+            $glob-who.TAKE-SNAPSHOT;
+            $*W.add_fixup_task(
+                :deserialize_ast(
+                    QAST::Stmt.new(
+                        QAST::Op.new(
+                            :op<callmethod>,
+                            :name<RESTORE-SNAPSHOT>,
+                            QAST::WVal.new( :value($glob-who) )
+                        )
+                    )
+                )
+            );
+        }
         # Errors/warnings in sinking pass should ignore highwater mark.
         $/.'!clear_highwater'();
 
