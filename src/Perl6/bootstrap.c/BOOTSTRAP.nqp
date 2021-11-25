@@ -145,7 +145,7 @@ my class Binder {
     my int $BIND_RESULT_FAIL     := 1;
     my int $BIND_RESULT_JUNCTION := 2;
 
-    my $autothreader;
+    # my $autothreader;
     my $Positional;
     my $PositionalBindFailover;
 
@@ -191,9 +191,9 @@ my class Binder {
         }
     }
 
-    method set_autothreader($callable) {
-        $autothreader := $callable;
-    }
+    # method set_autothreader($callable) {
+    #     $autothreader := $callable;
+    # }
 
     method set_pos_bind_failover($pos, $pos_bind_failover) {
         $Positional := $pos;
@@ -307,8 +307,22 @@ my class Binder {
                 }
 
                 # If not, do the check. If the wanted nominal type is Mu, then
-                # anything goes.
-                unless $param_type =:= Mu || nqp::istype($oval, $param_type) {
+                # anything goes, except for definite Junctions.
+                # if $param_type =:= Mu && nqp::getenvhash<RAKUDO_DEBUG> {
+                #     note($param_type.HOW.name($param_type), "-typed param (",
+                #         $varname, ", ",
+                #         $flags +& $SIG_ELEM_UNDEFINED_ONLY,
+                #         ") on ", $oval.HOW.name($oval), "-typed arg(", (nqp::isconcrete($oval) ?? "concrete" !! "undef"), "): ", nqp::istype_nd($oval, $param_type));
+                #     note("  condition: ", (
+                #             ($param_type =:= Mu || nqp::istype($oval, $param_type))
+                #                 && nqp::not_i(nqp::isconcrete($oval) && nqp::istype($oval.WHAT, Junction))
+                #     )
+                #     );
+                #     note($sig.raku);
+                # }
+                unless ($param_type =:= Mu || nqp::istype($oval, $param_type))
+                        && nqp::not_i(nqp::isconcrete($oval) && nqp::istype($oval, Junction))
+                {
                     # Type check failed; produce error if needed.
 
                     # Try to figure out the most helpful name for the expected
@@ -320,12 +334,12 @@ my class Binder {
 
                     if nqp::defined($error) {
                         $error[0] := {
-                            Perl6::Metamodel::Configuration.throw_or_die(
+                            Perl6::Metamodel::Configuration.exception_or_string(
                                 'X::TypeCheck::Binding::Parameter',
                                 "Nominal type check failed for parameter '" ~ $varname
                                     ~ "'; expected " ~ $expected.HOW.name($expected)
                                     ~ " but got " ~ $oval.HOW.name($oval),
-                                :got($oval),
+                                :got($oval.WHAT),
                                 :expected($expected.WHAT),
                                 :symbol(nqp::hllizefor($varname, 'Raku')),
                                 :parameter($param))
@@ -333,7 +347,7 @@ my class Binder {
                     }
 
                     # Report junction failure mode if it's a junction.
-                    return $oval.WHAT =:= Junction && nqp::isconcrete($oval)
+                    return nqp::istype($oval.WHAT, Junction) && nqp::isconcrete($oval)
                         ?? $BIND_RESULT_JUNCTION
                         !! $BIND_RESULT_FAIL;
                 }
@@ -355,7 +369,7 @@ my class Binder {
                                        ?? "Parameter '$varname' of routine '$method' must be an object instance of type '$class', not a type object of type '$got'.  Did you forget a '.new'?"
                                        !! "Parameter '$varname' of routine '$method' must be a type object of type '$class', not an object instance of type '$got'.  Did you forget a 'multi'?";
                             $error[0] := {
-                                Perl6::Metamodel::Configuration.throw_or_die(
+                                Perl6::Metamodel::Configuration.exception_or_string(
                                     'X::Parameter::InvalidConcreteness',
                                     $die_msg,
                                     :expected($class),
@@ -367,7 +381,7 @@ my class Binder {
                                 );
                             };
                         }
-                        return $oval.WHAT =:= Junction && nqp::isconcrete($oval)
+                        return nqp::istype($oval.WHAT, Junction) && nqp::isconcrete($oval)
                             ?? $BIND_RESULT_JUNCTION
                             !! $BIND_RESULT_FAIL;
                     }
@@ -424,7 +438,7 @@ my class Binder {
                 else {
                     if nqp::defined($error) {
                         $error[0] := {
-                            Perl6::Metamodel::Configuration.throw_or_die(
+                            Perl6::Metamodel::Configuration.exception_or_string(
                                 'X::Parameter::RW',
                                 "Parameter '$varname' expected a writable container, but got an " ~
                                     ~ $oval.HOW.name($oval) ~ " value",
@@ -497,7 +511,7 @@ my class Binder {
                 {
                     if nqp::defined($error) {
                         $error[0] := {
-                            Perl6::Metamodel::Configuration.throw_or_die(
+                            Perl6::Metamodel::Configuration.exception_or_string(
                                 'X::TypeCheck::Binding::Parameter',
                                 "Signature check failed for parameter '$varname'",
                                 :got($can_signature ?? $oval.signature !! Nil),
@@ -546,7 +560,7 @@ my class Binder {
                 unless $result {
                     if nqp::defined($error) {
                         $error[0] := {
-                            Perl6::Metamodel::Configuration.throw_or_die(
+                            Perl6::Metamodel::Configuration.exception_or_string(
                                 'X::TypeCheck::Binding::Parameter',
                                 "Constraint type check failed for parameter '$varname'",
                                 :got($bad_value),
@@ -978,6 +992,9 @@ my class Binder {
                     }
                 }
                 my %named_args := nqp::capturenamedshash($capture);
+                if nqp::getenvhash<RAKUDO_DEBUG> {
+                    note("+ AUTOTHREADING over ", $caller.name // "<anon code>");
+                }
                 return Junction.AUTOTHREAD($caller,
                         |@pos_args,
                         |%named_args);
@@ -1123,7 +1140,7 @@ my class Binder {
                                $got_prim == 3 ?? Str !!
                                $args[$cur_pos_arg];
                     my $param_type := nqp::getattr($param, Parameter, '$!type');
-                    unless $param_type =:= Mu || nqp::istype($arg, $param_type) {
+                    unless nqp::istype($arg, $param_type) {
                         # If it failed because we got a junction, may auto-thread;
                         # hand back 'not sure' for now.
                         if $arg.WHAT =:= Junction {
@@ -3026,6 +3043,9 @@ BEGIN {
                 }
                 if $has_junc_args {
                     $junctional_res := -> *@pos, *%named {
+                        if nqp::getenvhash<RAKUDO_DEBUG> {
+                            note("+ AUTHTHREADING due to junction arg over ", $self.name);
+                        }
                         Junction.AUTOTHREAD($self, |@pos, |%named)
                     }
                     add_to_cache($junctional_res);
@@ -3619,6 +3639,22 @@ BEGIN {
     #     has Mu $!eigenstates;
     #     has str $!type;
     Junction.HOW.add_parent(Junction, Mu);
+    # role Perl6::Metamodel::JunctionTypeChecking {
+    #     method isa($obj, $type) {
+    #         nqp::eqaddr(nqp::decont($obj), $type)
+    #     }
+    #     method type_check($obj, $checkee) {
+    #         my $decont := $obj;
+    #         # nqp::say("Junction type check: " ~ $decont.HOW.name($decont) ~ " vs. " ~ $checkee.HOW.name($checkee));
+    #         nqp::eqaddr(nqp::decont($obj), nqp::decont($checkee))
+    #     }
+    #     method publish_type_cache($obj) {
+    #         my $decont := $obj;
+    #         # nqp::say("Junction type cache publish: " ~ $decont.HOW.name($decont));
+    #         nqp::settypecache($decont, [nqp::decont($decont)]);
+    #     }
+    # }
+    # Junction.HOW.HOW.mixin(Junction.HOW, Perl6::Metamodel::JunctionTypeChecking);
     Junction.HOW.add_attribute(Junction, scalar_attr('$!eigenstates', Mu, Junction));
     Junction.HOW.add_attribute(Junction, scalar_attr('$!type', str, Junction));
     Junction.HOW.compose_repr(Junction);
@@ -4020,6 +4056,9 @@ nqp::sethllconfig('Raku', nqp::hash(
                     }
                 }
                 my %named_args := nqp::capturenamedshash($capture);
+                if nqp::getenvhash<RAKUDO_DEBUG> {
+                    note("+ AUTOTHREAD from bind_error over ", $caller.name // '<anon>');
+                }
                 Junction.AUTOTHREAD($caller,
                         |@pos_args,
                         |%named_args);

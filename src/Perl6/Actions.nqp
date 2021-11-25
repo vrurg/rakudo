@@ -2403,9 +2403,14 @@ class Perl6::Actions is HLL::Actions does STDActions {
         # The fallback path that does a full smartmatch
         else {
             $match_past :=
-              QAST::Op.new( :op('callmethod'), :name('ACCEPTS'),
-                $sm_exp,
-                WANTED(QAST::Var.new( :name('$_'), :scope('lexical') ),'when') );
+                QAST::Op.new(
+                    :op('callmethod'),
+                    :name('Bool'),
+                    QAST::Op.new(
+                        :op('callmethod'),
+                        :name('ACCEPTS'),
+                        $sm_exp,
+                        WANTED(QAST::Var.new( :name('$_'), :scope('lexical') ),'when')));
         }
 
         # Use the smartmatch result as the condition for running the block,
@@ -2794,12 +2799,17 @@ class Perl6::Actions is HLL::Actions does STDActions {
     method statement_mod_cond:sym<when>($/) {
         my $pat := $<modifier_expr>.ast;
         check_smartmatch($<modifier_expr>,$pat);
-        make QAST::Op.new( :op<if>,
-            QAST::Op.new( :name('ACCEPTS'), :op('callmethod'),
-                          $pat,
-                          WANTED(QAST::Var.new( :name('$_'), :scope('lexical') ),'when') ),
-            :node($/)
-        );
+        make QAST::Op.new(
+                :op<if>,
+                QAST::Op.new(
+                    :op('callmethod'),
+                    :name('Bool'),
+                    QAST::Op.new(
+                        :op('callmethod'),
+                        :name('ACCEPTS'),
+                        $pat,
+                        WANTED(QAST::Var.new( :name('$_'), :scope('lexical') ),'when'))),
+                :node($/));
     }
 
     method statement_mod_cond:sym<with>($/)    { make $<modifier_expr>.ast; }
@@ -2990,7 +3000,7 @@ class Perl6::Actions is HLL::Actions does STDActions {
         }
         if $*IN_DECL eq 'variable' {
             $past.sinkok(1);
-        }
+            }
 
         make $past;
     }
@@ -7446,16 +7456,58 @@ class Perl6::Actions is HLL::Actions does STDActions {
         my $old_topic_var := $lhs.unique('old_topic');
         my $result_var := $lhs.unique('sm_result');
         my $sm_call;
+        my $rhs_local := QAST::Node.unique('sm_rhs');
+        my $boolify := !($negated || $rhs.ann('regex_match_code'));
+
+        if $boolify {
+            $rhs := QAST::Op.new(
+                        :op('bind'),
+                        QAST::Var.new( :name($rhs_local), :scope('local'), :decl('var') ),
+                        $rhs
+                    );
+        }
 
         # Call $rhs.ACCEPTS( $_ ), where $_ is $lhs.
-        $sm_call := QAST::Op.new(
-            :op('callmethod'), :name('ACCEPTS'),
-            $rhs,
-            WANTED(QAST::Var.new( :name('$_'), :scope('lexical') ),'sm')
-        );
+        $sm_call :=
+            QAST::Op.new(
+                :op('callmethod'), :name('ACCEPTS'),
+                $rhs,
+                WANTED(QAST::Var.new( :name('$_'), :scope('lexical') ),'sm')
+            );
 
         if $negated {
             $sm_call := QAST::Op.new( :op('call'), :name('&prefix:<!>'), $sm_call );
+        }
+
+        $sm_call := QAST::Op.new( :op('bind'),
+                        QAST::Var.new( :name($result_var), :scope('local'), :decl('var') ),
+                        $sm_call
+                    );
+
+        if $boolify {
+            my $rhs_var := QAST::Var.new( :name($rhs_local), :scope('local') );
+            my $rvar := QAST::Var.new( :name($result_var), :scope('local') );
+            $sm_call := QAST::Stmts.new(
+                $sm_call,
+                QAST::Op.new(
+                    :op('if'),
+                    QAST::Op.new(
+                        :op('istype'),
+                        $rhs_var,
+                        QAST::WVal.new( :value($*W.find_single_symbol('Regex')) )
+                    ),
+                    $rvar,
+                    QAST::Op.new(
+                        :op('bind'),
+                        $rvar,
+                        QAST::Op.new(
+                            :op('callmethod'),
+                            :name('Bool'),
+                            $rvar
+                        )
+                    )
+                )
+            );
         }
 
         QAST::Op.new(
@@ -7475,10 +7527,7 @@ class Perl6::Actions is HLL::Actions does STDActions {
 
                 # Evaluate RHS and call ACCEPTS on it, passing in $_. Bind the
                 # return value to a result variable.
-                QAST::Op.new( :op('bind'),
-                    QAST::Var.new( :name($result_var), :scope('local'), :decl('var') ),
-                    $sm_call
-                ),
+                $sm_call,
 
                 # Re-instate original $_.
                 QAST::Op.new( :op('bind'),
@@ -8748,16 +8797,14 @@ class Perl6::Actions is HLL::Actions does STDActions {
             WANTED(QAST::Var.new( :name('$_'), :scope('lexical') ),'m'),
             block_closure($coderef, :regex)
         );
-        if self.handle_and_check_adverbs($/, %MATCH_ALLOWED_ADVERBS, 'm', $past) {
-            # if this match returns a list of matches instead of a single
-            # match, don't assign to $/ (which imposes item context)
-            make $past;
-        } else {
-            make QAST::Op.new( :op('p6store'),
+        unless self.handle_and_check_adverbs($/, %MATCH_ALLOWED_ADVERBS, 'm', $past) {
+            $past := QAST::Op.new( :op('p6store'),
                 QAST::Var.new(:name('$/'), :scope('lexical')),
                 $past
             );
         }
+        $past.annotate('regex_match_code', 1);
+        make $past;
     }
 
     # returns 1 if the adverbs indicate that the return value of the
@@ -9006,7 +9053,11 @@ class Perl6::Actions is HLL::Actions does STDActions {
                 !! QAST::Var.new( :name($S_result), :scope('local') ),
             ),
         );
-        $past.annotate('is_S', $<sym> eq 'S');
+        $past.annotate_self(
+            'is_S', $<sym> eq 'S'
+        ).annotate(
+            'regex_match_code', 1
+        );
         make WANTED($past, 's///');  # never carp about s/// in sink context
     }
 
@@ -9354,7 +9405,9 @@ class Perl6::Actions is HLL::Actions does STDActions {
                         QAST::Var.new( :name(get_decont_name()), :scope('local') ),
                         QAST::Var.new( :name($genericname), :scope<typevar> )
                     )));
-                } elsif !($param_type =:= $*W.find_single_symbol('Mu')) {
+                }
+                else {
+                # } elsif !($param_type =:= $*W.find_single_symbol('Mu')) {
                     if $ptype_archetypes.generic {
                         return 0 unless %info<is_invocant>;
                     }
@@ -9396,22 +9449,89 @@ class Perl6::Actions is HLL::Actions does STDActions {
                                         QAST::Var.new( :name(get_decont_name()), :scope('local') ),
                                         QAST::WVal.new( :value($param_type.HOW.constraint_type($param_type) ))))));
                         }
+                        elsif $param_type =:= $*W.find_single_symbol('Mu') {
+                            $var.push(
+                                QAST::ParamTypeCheck.new(
+                                    # QAST::Stmts.new(
+                                    # QAST::Op.new(
+                                    #     :op<callmethod>,
+                                    #     :name<name_type_check>,
+                                    #     QAST::WVal.new( :value(nqp::gethllsym('Raku', 'METAMODEL_CONFIGURATION')) ),
+                                    #     QAST::Var.new( :name(get_decont_name()), :scope('local') ),
+                                    #     QAST::WVal.new( :value($param_type) ),
+                                    #     QAST::SVal.new( :value('Mu-typed param') ),
+                                    #     QAST::Op.new(
+                                    #         :op('not_i'),
+                                    #         QAST::Op.new(
+                                    #             :op('if'),
+                                    #             QAST::Op.new(
+                                    #                 :op('isconcrete_nd'),
+                                    #                 QAST::Var.new( :name(get_decont_name()), :scope('local') ),
+                                    #             ),
+                                    #             QAST::Op.new(
+                                    #                 :op('istype_nd'),
+                                    #                 QAST::Var.new( :name(get_decont_name()), :scope('local') ),
+                                    #                 QAST::WVal.new( :value($*W.find_single_symbol('Junction')) )
+                                    #             )
+                                    #         )
+                                    #     )
+                                    # ),
+                                    QAST::Op.new(
+                                        :op('not_i'),
+                                        QAST::Op.new(
+                                            :op('if'),
+                                            QAST::Op.new(
+                                                :op('isconcrete_nd'),
+                                                QAST::Var.new( :name(get_decont_name()), :scope('local') ),
+                                            ),
+                                            QAST::Op.new(
+                                                :op('istype_nd'),
+                                                QAST::Var.new( :name(get_decont_name()), :scope('local') ),
+                                                QAST::WVal.new( :value($*W.find_single_symbol('Junction')) )
+                                            )
+                                        )
+                                    )
+                                    # )
+                                )
+                            );
+                        }
                         else {
-                            $var.push(QAST::ParamTypeCheck.new(QAST::Op.new(
-                                :op('istype_nd'),
-                                QAST::Var.new( :name(get_decont_name()), :scope('local') ),
-                                QAST::WVal.new( :value($param_type) )
-                            )));
+                            $var.push(
+                                QAST::ParamTypeCheck.new(
+                                    # QAST::Stmts.new(
+                                    # QAST::Op.new(
+                                    #     :op<callmethod>,
+                                    #     :name<name_type_check>,
+                                    #     QAST::WVal.new( :value(nqp::gethllsym('Raku', 'METAMODEL_CONFIGURATION')) ),
+                                    #     QAST::Var.new( :name(get_decont_name()), :scope('local') ),
+                                    #     QAST::WVal.new( :value($param_type) ),
+                                    #     QAST::SVal.new( :value('Non-Mu-typed param') ),
+                                    #     QAST::Op.new(
+                                    #         :op('istype_nd'),
+                                    #         QAST::Var.new( :name(get_decont_name()), :scope('local') ),
+                                    #         QAST::WVal.new( :value($param_type) )
+                                    #     )
+                                    # ),
+                                    QAST::Op.new(
+                                        :op('istype_nd'),
+                                        QAST::Var.new( :name(get_decont_name()), :scope('local') ),
+                                        QAST::WVal.new( :value($param_type) )
+                                    )
+                                    # )
+                                )
+                            );
                         }
                     }
                 }
                 if %info<undefined_only> {
-                    $var.push(QAST::ParamTypeCheck.new(QAST::Op.new(
-                        :op('not_i'),
+                    $var.push(QAST::ParamTypeCheck.new(
                         QAST::Op.new(
-                            :op('isconcrete_nd'),
-                            QAST::Var.new( :name(get_decont_name()), :scope('local') )
-                        ))));
+                            :op('not_i'),
+                            QAST::Op.new(
+                                :op('isconcrete_nd'),
+                                QAST::Var.new( :name(get_decont_name()), :scope('local') )
+                            )))
+                    );
                 }
                 if %info<defined_only> {
                     $var.push(QAST::ParamTypeCheck.new(QAST::Op.new(
@@ -9796,13 +9916,15 @@ class Perl6::Actions is HLL::Actions does STDActions {
                             :op<if>,
                             QAST::Op.new(:op<can>, $var-qast, QAST::SVal.new(:value<signature>)),
                             QAST::Op.new(
-                                :op<callmethod>,
-                                :name<ACCEPTS>,
-                                $sigc-qast,
+                                :op<istrue>,
                                 QAST::Op.new(
                                     :op<callmethod>,
-                                    :name<signature>,
-                                    $var-qast ))))));
+                                    :name<ACCEPTS>,
+                                    $sigc-qast,
+                                    QAST::Op.new(
+                                        :op<callmethod>,
+                                        :name<signature>,
+                                        $var-qast )))))));
             }
 
             # Apply post-constraints (must come after variable bind, as constraints can
@@ -9836,14 +9958,14 @@ class Perl6::Actions is HLL::Actions does STDActions {
                               ?? QAST::Op.new(:op<if>,
                                   QAST::Op.new(:op<isconcrete>, $var-qast),
                                   QAST::Op.new(:op<iseq_s>, $wval, $var-qast))
-                              !! QAST::Op.new: :op<istrue>, QAST::Op.new: :op<callmethod>,
-                                  :name<ACCEPTS>,
-                                  $isCode
-                                    ?? QAST::Op.new(:op<p6capturelex>,
-                                      QAST::Op.new: :op<callmethod>, :name<clone>, $wval)
-                                    !! $wval,
-
-                                  $var-qast
+                              !! QAST::Op.new(
+                                    :op<istrue>,
+                                    QAST::Op.new(
+                                        :op<callmethod>,
+                                        :name<ACCEPTS>,
+                                        $isCode
+                                          ?? QAST::Op.new(:op<p6capturelex>, QAST::Op.new( :op<callmethod>, :name<clone>, $wval ))
+                                          !! $wval, $var-qast))
                     );
 
                     if $isCode {
@@ -9851,8 +9973,8 @@ class Perl6::Actions is HLL::Actions does STDActions {
                         # Some optimizations we must handle specially if no
                         # autothreading of Junctions will happen:
                         $param.annotate: 'no-autothread', 1
-                          unless nqp::istype(%info<type>,
-                            $*W.find_symbol: ['Any'], :setting-only);
+                          if nqp::istype(%info<type>,
+                            $*W.find_symbol: ['Junction'], :setting-only);
                     }
 
                     $var.push: $param;
@@ -10096,10 +10218,13 @@ class Perl6::Actions is HLL::Actions does STDActions {
             ),
             QAST::Stmts.new(
                 QAST::Op.new(
-                    :op('callmethod'), :name('ACCEPTS'),
-                    $expr,
-                    $operand,
-                ))).annotate_self: 'outer', $*W.cur_lexpad;
+                    :op('callmethod'),
+                    :name('Bool'),
+                    QAST::Op.new(
+                        :op('callmethod'),
+                        :name('ACCEPTS'),
+                        $expr,
+                        $operand )))).annotate_self: 'outer', $*W.cur_lexpad;
         ($*W.cur_lexpad())[0].push($past);
 
         # Give it a signature and create code object.

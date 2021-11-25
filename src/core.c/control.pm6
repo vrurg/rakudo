@@ -33,6 +33,9 @@ proto sub return-rw(|) {*}
 multi sub return-rw(--> Nil) {
     nqp::throwpayloadlexcaller(nqp::const::CONTROL_RETURN, Nil);
 }
+multi sub return-rw(Junction \x --> Nil) {
+    nqp::throwpayloadlexcaller(nqp::const::CONTROL_RETURN, x);
+}
 multi sub return-rw(Mu \x --> Nil) {
     nqp::throwpayloadlexcaller(nqp::const::CONTROL_RETURN, x);
 }
@@ -42,6 +45,9 @@ multi sub return-rw(**@x is raw --> Nil) {
 proto sub return(|) {*}
 multi sub return(--> Nil) {
     nqp::throwpayloadlexcaller(nqp::const::CONTROL_RETURN, Nil);
+}
+multi sub return(Junction \x --> Nil) {
+    nqp::throwpayloadlexcaller(nqp::const::CONTROL_RETURN, nqp::p6recont_ro(x));
 }
 multi sub return(Mu \x --> Nil) {
     nqp::throwpayloadlexcaller(nqp::const::CONTROL_RETURN, nqp::p6recont_ro(x));

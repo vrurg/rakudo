@@ -20,7 +20,7 @@ my class Attribute { # declared in BOOTSTRAP
     #     has Attribute $!original;
     #     has Attribute $!composed;
 
-    method compose(Mu $package, :$compiler_services) {
+    method compose(Mu:U $package, :$compiler_services) {
         return if $!composed;
         my $dcpkg := nqp::decont($package);
         nqp::bindattr(self, Attribute, '$!package', $dcpkg);

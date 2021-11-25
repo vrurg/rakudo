@@ -3372,7 +3372,14 @@ my class Str does Stringy { # declared in BOOTSTRAP
         # Loop through all lines to get as much info out of them as possible
         my @lines = $obj.lines(:!chomp).map({
             # Split the line into indent and content
+            if %*ENV<RAKUDO_DEBUG> {
+                note "< de-indenting ", .raku;
+            }
             my ($indent, $rest) = @($_ ~~ /^(\h*) (.*)$/);
+            if %*ENV<RAKUDO_DEBUG> {
+                note "< de-indenting, indent: ", $indent.raku, "\n",
+                     "                  rest: ", $rest.raku;
+            }
 
             # Split the indent into characters and annotate them
             # with their visual size

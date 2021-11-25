@@ -621,6 +621,7 @@ multi sub is-deeply(Mu $got, Mu $expected, $reason = '') is export {
 }
 
 sub throws-like($code, $ex_type, $reason?, *%matcher) is export {
+    note "\%matcher: ", %matcher.raku;
     for %matcher.kv -> $k, $v {
         if $v.DEFINITE && $v ~~ Bool {
             X::Match::Bool.new(:type(".$k")).throw;

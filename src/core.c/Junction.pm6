@@ -1,11 +1,12 @@
-my class Junction { # declared in BOOTSTRAP
+my class Backtrace {...}
+my class Junction does Muish { # declared in BOOTSTRAP
     # class Junction is Mu
     #     has Mu $!eigenstates;              # elements of Junction
     #     has str $!type;                # type of Junction
     # Both of these are also accessed directly inside optimizer when
     # optimizing param typechecks with where clauses
 
-    method !SET-SELF(str $type,\values) {
+    method !SET-SELF(Junction: str $type,\values) {
         if nqp::iseq_s($type,"any")
           || nqp::iseq_s($type,"all")
           || nqp::iseq_s($type,"none")
@@ -61,7 +62,7 @@ my class Junction { # declared in BOOTSTRAP
         )
     }
 
-    proto method new(|) {*}
+    proto method new(Junction: |) {*}
     multi method new(Junction: \values, Str :$type!) {
         nqp::create(Junction)!SET-SELF($type,values)
     }
@@ -69,7 +70,7 @@ my class Junction { # declared in BOOTSTRAP
         nqp::create(Junction)!SET-SELF(type,values)
     }
 
-    method !defined-any() {
+    method !defined-any(Junction:) {
         my \eigenstates := $!eigenstates;
         my int $i = -1;
         nqp::while(
@@ -79,7 +80,7 @@ my class Junction { # declared in BOOTSTRAP
         );
         nqp::hllbool(nqp::islt_i($i,nqp::elems(eigenstates)))
     }
-    method !defined-all() {
+    method !defined-all(Junction:) {
         my \eigenstates := $!eigenstates;
         my int $i = -1;
         nqp::while(
@@ -89,7 +90,7 @@ my class Junction { # declared in BOOTSTRAP
         );
         nqp::hllbool(nqp::iseq_i($i,nqp::elems(eigenstates)))
     }
-    method !defined-none() {
+    method !defined-none(Junction:) {
         my \eigenstates := $!eigenstates;
         my int $i = -1;
         nqp::while(
@@ -99,7 +100,7 @@ my class Junction { # declared in BOOTSTRAP
         );
         nqp::hllbool(nqp::iseq_i($i,nqp::elems(eigenstates)))
     }
-    method !defined-one() {
+    method !defined-one(Junction:) {
         my \eigenstates := $!eigenstates;
         my int $i = -1;
         my int $seen;
@@ -121,6 +122,8 @@ my class Junction { # declared in BOOTSTRAP
               !! self!defined-one  # nqp::iseq_s($!type,'one')
     }
 
+    proto method Bool(Junction:) {*}
+    multi method Bool(Junction:U: --> False) {}
     multi method Bool(Junction:D:) {
         nqp::hllbool(
           nqp::stmts(
@@ -176,6 +179,7 @@ my class Junction { # declared in BOOTSTRAP
         )
     }
 
+    multi method ACCEPTS(Junction:U: Junction:U --> True) { }
     multi method ACCEPTS(Junction:U: Junction:D --> True) { }
     multi method ACCEPTS(Junction:D: Mu \topic) {
         nqp::hllbool(
@@ -263,6 +267,8 @@ my class Junction { # declared in BOOTSTRAP
         list(self).iterator
     }
 
+    proto method gist(Junction: |) {*}
+    multi method gist(Junction:U:) { '(' ~ self.^name ~ ')' }
     multi method gist(Junction:D:) {
         my int $elems = nqp::elems($!eigenstates);
         my int $i     = -1;
@@ -272,6 +278,8 @@ my class Junction { # declared in BOOTSTRAP
         $!type ~ '(' ~ nqp::join(', ',$gists) ~ ')'
     }
 
+    proto method raku(Junction: |) {*}
+    multi method raku(Junction:U:) { self.^name }
     multi method raku(Junction:D:) {
         my int $elems = nqp::elems($!eigenstates);
         my int $i     = -1;
@@ -281,7 +289,7 @@ my class Junction { # declared in BOOTSTRAP
         $!type ~ '(' ~ nqp::join(', ',$rakus) ~ ')'
     }
 
-    method CALL-ME(|c) {
+    method CALL-ME(Junction: |c) {
         my \storage     := nqp::getattr(self, Junction, '$!eigenstates');
         my int $elems    = nqp::elems(storage);
         my \result      := nqp::setelems(nqp::list, $elems);
@@ -303,7 +311,7 @@ my class Junction { # declared in BOOTSTRAP
     # Helper method for handling those cases where auto-threading doesn't cut it.
     # Call the given Callable with each of the Junction values, and return a
     # Junction with the results of the calls.
-    method THREAD(&call) is implementation-detail {
+    method THREAD(Junction: &call) is implementation-detail {
         my \storage := nqp::getattr(self,Junction,'$!eigenstates');
         my int $i = -1;
         my int $elems = nqp::elems(storage);
@@ -315,7 +323,7 @@ my class Junction { # declared in BOOTSTRAP
         nqp::p6bindattrinvres(nqp::clone(self),Junction,'$!eigenstates',result)
     }
 
-    method AUTOTHREAD(&call, |args) is implementation-detail {
+    method AUTOTHREAD(Junction: &call, |args) is implementation-detail {
         my \positionals := nqp::getattr(nqp::decont(args),Capture,'@!list');
 
         sub thread_junction(int $pos) {
@@ -350,7 +358,7 @@ my class Junction { # declared in BOOTSTRAP
             my Mu $arg := nqp::atpos(positionals, $i);
             if nqp::istype($arg, Junction) and (
                 # No auto-threading for Mu or Junction parameters necessary
-                not nqp::istype(Junction, @params[$i].type)
+                not nqp::istype(@params[$i].type, Junction)
                 # Can't handle protos yet because auto-generated protos
                 # will report Mu as parameter type
                 or &call.?is_dispatcher
@@ -552,10 +560,10 @@ multi sub infix:<~>(Junction:D \a, Junction:D \b) {
     junction
 }
 
-nqp::p6setautothreader( -> |c {
-    Junction.AUTOTHREAD(|c)
-} );
-Mu.HOW.setup_junction_fallback(Junction, -> $name, |c {
+# nqp::p6setautothreader( -> |c {
+#     Junction.AUTOTHREAD(|c)
+# } );
+Metamodel::ClassHOW.setup_junction_fallback(Junction, -> $name, |c {
     my \positionals := nqp::getattr(nqp::decont(c), Capture, '@!list');
     my \junction    := nqp::decont(nqp::atpos(positionals, 0));
     my \storage     := nqp::getattr(junction, Junction, '$!eigenstates');

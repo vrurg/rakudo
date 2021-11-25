@@ -4,20 +4,18 @@ my class X::Method::InvalidQualifier { ... }
 my class X::Attribute::Required      { ... }
 my class WalkList                    { ... }
 
-my class Mu { # declared in BOOTSTRAP
+my role Muish { # declared in BOOTSTRAP
 
-    method self { self }
+    method self(::?CLASS:) { self }
 
-    method sink(--> Nil) { }
-
-    proto method perl(|) {*}
-    multi method perl(Mu \SELF: |c) { SELF.raku(|c) }
+    proto method perl(::?CLASS: |) {*}
+    multi method perl(::?CLASS \SELF: |c) { SELF.raku(|c) }
     # although technically not a documented method, some module authors have
     # used this in the ecosystem.
-    method perlseen(Mu \SELF: |c) { SELF.rakuseen(|c) }
+    method perlseen(::?CLASS \SELF: |c) { SELF.rakuseen(|c) }
 
-    proto method ACCEPTS(|) {*}
-    multi method ACCEPTS(Mu:U: Mu \topic) {
+    proto method ACCEPTS(::?CLASS: |) {*}
+    multi method ACCEPTS(::?CLASS:U: Mu \topic) {
         nqp::hllbool(nqp::istype(topic, self))
     }
     # Typically, junctions shouldn't be typechecked literally. There are
@@ -26,16 +24,16 @@ my class Mu { # declared in BOOTSTRAP
     # candidate to handle junctions allows them to get threaded as they should
     # while preserving compatibility with existing code that has any ACCEPTS
     # candidates for Mu or Junction.
-    multi method ACCEPTS(Mu:U \SELF: Junction:D \topic) is default {
+    multi method ACCEPTS(::?CLASS:U \SELF: Junction:D \topic) is default {
         topic.THREAD: { SELF.ACCEPTS: $_ }
     }
 
-    method WHERE() {
+    method WHERE(::?CLASS:) {
         nqp::p6box_i(nqp::where(self))
     }
 
-    proto method WHICH(|) {*}
-    multi method WHICH(Mu:U: --> ValueObjAt:D) {
+    proto method WHICH(::?CLASS: |) {*}
+    multi method WHICH(::?CLASS:U: --> ValueObjAt:D) {
         nqp::box_s(
             nqp::concat(
                 nqp::concat(nqp::unbox_s(self.^name), '|U'),
@@ -44,7 +42,7 @@ my class Mu { # declared in BOOTSTRAP
             ValueObjAt
         )
     }
-    multi method WHICH(Mu:D: --> ObjAt:D) {
+    multi method WHICH(::?CLASS:D: --> ObjAt:D) {
         nqp::box_s(
             nqp::concat(
                 nqp::concat(nqp::unbox_s(self.^name), '|'),
@@ -54,86 +52,63 @@ my class Mu { # declared in BOOTSTRAP
         )
     }
 
-    proto method iterator(|) {*}
-    multi method iterator(Mu:) { Rakudo::Iterator.OneValue(self) }
+    proto method iterator(::?CLASS: |) {*}
+    multi method iterator(::?CLASS:) { Rakudo::Iterator.OneValue(self) }
 
-    proto method split(|) {*}
-
-    method emit {
+    method emit(::?CLASS:) {
         emit self;
     }
-    method take {
+    method take(::?CLASS:) {
         take self;
     }
-    method return-rw(Mu \SELF: |) {  # same code as control.pm6's return-rw
+    method return-rw(::?CLASS \SELF: |) {  # same code as control.pm6's return-rw
         my $list := RETURN-LIST(nqp::p6argvmarray());
         nqp::throwpayloadlexcaller(nqp::const::CONTROL_RETURN, $list);
         $list;
     }
-    method return(|) {  # same code as control.pm6's return
+    method return(::?CLASS: |) {  # same code as control.pm6's return
         my $list := RETURN-LIST(nqp::p6argvmarray());
         nqp::throwpayloadlexcaller(nqp::const::CONTROL_RETURN, nqp::p6recont_ro($list));
         $list;
     }
 
-    proto method WHY(|) {*}
-    multi method WHY(Mu:) {
-        my Mu $why;
+    method so(::?CLASS:)  { self.Bool }
+    method not(::?CLASS:) { self.Bool ?? False !! True }
 
-        my role Suggestion[$name] {
-            method gist {
-                "No documentation available for type '$name'. Perhaps it can be found at https://docs.raku.org/type/$name".naive-word-wrapper
-            }
-        }
+    proto method defined(::?CLASS: |) {*}
+    multi method defined(::?CLASS:U: --> False) { }
+    multi method defined(::?CLASS:D: --> True)  { }
 
-        if nqp::can(self.HOW, 'WHY') {
-            $why := self.HOW.WHY;
-        }
-
-        if $why.defined && !$.defined #`(ie. we're a type object) {
-            $why.set_docee(self);
-        }
-        $why // Nil but Suggestion[self.^name]
-    }
-
-    method set_why($why) {
-        self.HOW.set_why($why);
-    }
-
-    proto method Bool() {*}
-    multi method Bool(Mu:U: --> False) { }
-    multi method Bool(Mu:D:) { self.defined }
-
-    method so()  { self.Bool }
-    method not() { self ?? False !! True }
-
-    proto method defined(|) {*}
-    multi method defined(Mu:U: --> False) { }
-    multi method defined(Mu:D: --> True)  { }
-
-    proto method new(|) {*}
-    multi method new(*%attrinit) {
-        nqp::eqaddr((my $bless := nqp::tryfindmethod(self,'bless')),
-                    nqp::findmethod(Mu,'bless'))
-                ?? nqp::create(self).BUILDALL(Empty, %attrinit)
-                !! $bless(self,|%attrinit)
-    }
-    multi method new($, *@) {
-        X::Constructor::Positional.new(:type( self )).throw();
-    }
-
-    proto method is-lazy (|) {*}
-    multi method is-lazy(Mu: --> False) { }
-
-    method CREATE() {
+    method CREATE(::?CLASS:) {
         nqp::create(self)
     }
 
+    proto method Str(|) {*}
+    multi method Str(::?CLASS:U \v:) {
+        my $name = (defined($*VAR_NAME) ?? $*VAR_NAME !! try v.VAR.name) // '';
+        $name   ~= ' ' if $name ne '';
+        warn "Use of uninitialized value {$name}of type {self.^name} in string"
+                ~ " context.\nMethods .^name, .raku, .gist, or .say can be"
+                ~ " used to stringify it to something meaningful.";
+        ''
+    }
+
+    proto method Stringy(|) {*}
+    multi method Stringy(::?CLASS:U \v:) {
+        my $*VAR_NAME = try v.VAR.name;
+        self.Str
+    }
+    multi method Stringy(::?CLASS:D $:) { self.Str }
+
+    method item(::?CLASS \item:) is raw { item }
+}
+
+my class Mu does Muish {
     method bless(*%attrinit) {
         nqp::create(self).BUILDALL(Empty, %attrinit);
     }
 
-    method BUILDALL(Mu:D: @autovivs, %attrinit) {
+    method BUILDALL(::?CLASS:D: @autovivs, %attrinit) {
         my $init := nqp::getattr(%attrinit,Map,'$!storage');
         # Get the build plan. Note that we do this "low level" to
         # avoid the NQP type getting mapped to a Rakudo one, which
@@ -633,40 +608,378 @@ my class Mu { # declared in BOOTSTRAP
         self
     }
 
-    proto method Numeric(|) {*}
-    multi method Numeric(Mu:U \v:) {
-        warn "Use of uninitialized value of type {self.^name} in numeric context";
-        0
+    proto method new(|) {*}
+    multi method new(*%attrinit) {
+        nqp::eqaddr((my $bless := nqp::tryfindmethod(self,'bless')),
+                    nqp::findmethod(Mu,'bless'))
+                ?? nqp::create(self).BUILDALL(Empty, %attrinit)
+                !! $bless(self,|%attrinit)
     }
-    proto method Real(|) {*}
-    multi method Real(Mu:U \v:) {
-        warn "Use of uninitialized value of type {self.^name} in numeric context";
-        0
+    multi method new($, *@) {
+        X::Constructor::Positional.new(:type( self )).throw();
     }
 
-    proto method Str(|) {*}
-    multi method Str(Mu:U \v:) {
-        my $name = (defined($*VAR_NAME) ?? $*VAR_NAME !! try v.VAR.name) // '';
-        $name   ~= ' ' if $name ne '';
-        warn "Use of uninitialized value {$name}of type {self.^name} in string"
-                ~ " context.\nMethods .^name, .raku, .gist, or .say can be"
-                ~ " used to stringify it to something meaningful.";
-        ''
+    method sink(--> Nil) { }
+
+    proto method split(|) {*}
+
+    proto method Bool() {*}
+    multi method Bool(::?CLASS:U: --> False) { }
+    multi method Bool(::?CLASS:D:) { self.defined }
+
+    proto method clone (|) {*}
+    multi method clone(::?CLASS:U: *%twiddles) {
+        %twiddles and die 'Cannot set attribute values when cloning a type object';
+        self
     }
-    multi method Str(Mu:D:) {
+    multi method clone(::?CLASS:D: *%twiddles) {
+        my $cloned := nqp::clone(self);
+        if %twiddles.elems {
+            for self.^attributes.flat -> $attr {
+                my $name    := $attr.name;
+                my $package := $attr.package;
+
+                nqp::bindattr($cloned, $package, $name,
+                  nqp::clone(nqp::getattr($cloned, $package, $name).VAR)
+                ) if nqp::attrinited(self, $package, $name)
+                    and nqp::not_i(nqp::objprimspec($attr.type));
+
+                my $acc_name := substr($name,2);
+                nqp::getattr($cloned, $package, $name) =
+                  nqp::decont(%twiddles{$acc_name})
+                  if $attr.has_accessor && %twiddles.EXISTS-KEY($acc_name);
+            }
+        }
+        else {
+            for self.^attributes.flat -> $attr {
+                unless nqp::objprimspec($attr.type) {
+                    my $name     := $attr.name;
+                    my $package  := $attr.package;
+                    if nqp::attrinited(self, $package, $name) {
+                        my $attr_val := nqp::getattr($cloned, $package, $name);
+                        nqp::bindattr($cloned,
+                          $package, $name, nqp::clone($attr_val.VAR))
+                            if nqp::iscont($attr_val);
+                    }
+                }
+            }
+        }
+        $cloned
+    }
+
+    proto method gist(|) {*}
+    multi method gist(::?CLASS:U:) { '(' ~ self.^shortname ~ ')' }
+    multi method gist(::?CLASS:D:) { self.raku }
+
+    proto method raku(|) {*}
+    multi method raku(::?CLASS:U:) {
+        nqp::istype(self.^find_method("perl").package, Muish)
+          ?? self.^name
+          !! self.perl
+    }
+    multi method raku(::?CLASS:D:) {
+        nqp::eqaddr(self,IterationEnd)
+          ?? "IterationEnd"
+          !! nqp::iscont(self) # a Proxy object would have a conted `self`
+            ?? nqp::decont(self).raku
+            !! nqp::istype((my $proto := self.^find_method("perl")).package, Muish)
+                 && $proto.dispatchees == 1
+              ?? self!default-raku
+              !! self.perl    # class has dedicated old-style .perl
+    }
+
+    method gistseen(::?CLASS:D \SELF: $id, $gist, *%named) {
+        if nqp::not_i(nqp::isnull(nqp::getlexdyn('$*gistseen'))) {
+            my \sems := $*gistseen;
+            my str $WHICH = nqp::unbox_s(self.WHICH);
+            if nqp::existskey(sems,$WHICH) && nqp::atkey(sems,$WHICH) {
+                nqp::bindkey(sems,$WHICH,2);
+                "{$id}_{nqp::objectid(SELF)}";
+            }
+            else {
+                nqp::bindkey(sems,$WHICH,1);
+                my $result   := $gist(|%named);
+                my int $value = nqp::atkey(sems,$WHICH);
+                nqp::deletekey(sems,$WHICH);
+                $value == 2
+                  ?? "(\\{$id}_{nqp::objectid(SELF)} = $result)"
+                  !! $result
+            }
+        }
+        else {
+            my $*gistseen := nqp::hash("TOP",1);
+            SELF.gistseen($id,$gist,|%named)
+        }
+    }
+
+    method rakuseen(::?CLASS:D \SELF: $id, $raku, *%named) {
+        my $sigil = nqp::iseq_s($id, 'Array') ?? '@'
+            !! nqp::iseq_s($id, 'Hash') ?? '%' !! '\\';
+        if nqp::not_i(nqp::isnull(nqp::getlexdyn('$*rakuseen'))) {
+            my \sems := $*rakuseen;
+            my str $WHICH = nqp::unbox_s(self.WHICH);
+            if nqp::existskey(sems,$WHICH) && nqp::atkey(sems,$WHICH) {
+                nqp::bindkey(sems,$WHICH,2);
+                $sigil x nqp::isne_s($sigil, '\\') ~ "{$id}_{nqp::objectid(SELF)}";
+            }
+            else {
+                nqp::bindkey(sems,$WHICH,1);
+                my $result := $raku(|%named);
+                my int $value = nqp::atkey(sems,$WHICH);
+                nqp::deletekey(sems,$WHICH);
+                $value == 2
+                  ?? nqp::iseq_s($sigil, '\\')
+                    ??  "(my {$sigil}{$id}_{nqp::objectid(SELF)} = $result)"
+                    !! "((my {$sigil}{$id}_{nqp::objectid(SELF)}) = $result)"
+                  !! $result
+            }
+        }
+        else {
+            my $*rakuseen := nqp::hash("TOP",1);
+            SELF.rakuseen($id,$raku,|%named)
+        }
+    }
+
+    multi method Str(::?CLASS:D:) {
         nqp::eqaddr(self,IterationEnd)
           ?? "IterationEnd"
           !! self.^name ~ '<' ~ nqp::tostr_I(nqp::objectid(self)) ~ '>'
     }
 
-    proto method Stringy(|) {*}
-    multi method Stringy(Mu:U \v:) {
-        my $*VAR_NAME = try v.VAR.name;
-        self.Str
-    }
-    multi method Stringy(Mu:D $:) { self.Str }
+    proto method WHY(::?CLASS: |) {*}
+    multi method WHY(::?CLASS:) {
+        my Mu $why;
 
-    method item(Mu \item:) is raw { item }
+        my role Suggestion[$name] {
+            method gist {
+                "No documentation available for type '$name'. Perhaps it can be found at https://docs.raku.org/type/$name".naive-word-wrapper
+            }
+        }
+
+        if nqp::can(self.HOW, 'WHY') {
+            $why := self.HOW.WHY;
+        }
+
+        if $why.defined && !$.defined #`(ie. we're a type object) {
+            $why.set_docee(self);
+        }
+        $why // Nil but Suggestion[self.^name]
+    }
+
+    method set_why($why) {
+        self.HOW.set_why($why);
+    }
+
+    method !default-raku() {
+        self.rakuseen: self.^name, {
+            if self.^attributes.map( {
+                nqp::concat(
+                  nqp::substr(.Str,2),
+                  nqp::concat(' => ',.get_value(self).raku)
+                ) if .is_built;
+            } ).join(', ') -> $attributes {
+                self.^name ~ '.new(' ~ $attributes ~ ')'
+            }
+            else {
+                self.^name ~ '.new'
+            }
+        }
+    }
+
+    method !batch-call(::?CLASS \SELF: \name, Capture:D \c, :$throw = False, :$reverse = False, :$roles = False) {
+        my @mro := SELF.^mro(concretizations => $roles);
+        my $results := nqp::create(IterationBuffer);
+        my int $mro_high = $reverse ?? 0 !! @mro.elems - 1;
+        my int $i = @mro.elems;
+        while nqp::isge_i(--$i, 0) {
+            my int $idx = nqp::abs_i($mro_high - $i);
+            my Mu \type-obj = @mro[$idx];
+            my $meth = (type-obj.^method_table){name} unless type-obj.HOW.archetypes.composable;
+            $meth = (type-obj.^submethod_table){name} if !$meth;
+            nqp::push($results,$meth(SELF, |c))    if $meth;
+        }
+        if $throw && $results.elems == 0 {
+            X::Method::NotFound.new(
+              invocant => SELF,
+              method   => name,
+              typename => SELF.^name,
+            ).throw;
+        }
+        $results.List
+    }
+
+    proto method WALK(|) {*}  # is implementation-detail
+    multi method WALK(:$name!, :$canonical, :$ascendant, :$descendant, :$preorder, :$breadth,
+                :$super, :$omit, :$include, :$roles, :$submethods = True, :$methods = True
+                --> WalkList)
+    {
+        # First, build list of classes in the order we'll need them.
+
+        my sub maybe-with-roles(Mu \typeobj) {
+            flat typeobj.^parents(:local),
+                 ($roles ?? typeobj.^roles(:local, :transitive, :mro) !! ())
+        }
+
+        my @classes;
+        if $super {
+            @classes = maybe-with-roles(self)
+        }
+        elsif $breadth {
+            my @search_list = self.WHAT;
+            while @search_list {
+                append @classes, @search_list;
+                my @new_search_list;
+                for @search_list -> $current {
+                    for maybe-with-roles($current) -> $next {
+                        unless @new_search_list.grep({ $^c.WHAT =:= $next.WHAT }) {
+                            push @new_search_list, $next;
+                        }
+                    }
+                }
+                @search_list = @new_search_list;
+            }
+        } elsif $ascendant | $preorder {
+            sub build_ascendent(Mu $class) {
+                unless @classes.grep({ $^c.WHAT =:= $class.WHAT }) {
+                    push @classes, $class;
+                    for maybe-with-roles($class) {
+                        build_ascendent($^parent);
+                    }
+                }
+            }
+            build_ascendent(self.WHAT);
+        } elsif $descendant {
+            sub build_descendent(Mu $class) {
+                unless @classes.grep({ $^c.WHAT =:= $class.WHAT }) {
+                    for maybe-with-roles($class) {
+                        build_descendent($^parent);
+                    }
+                    push @classes, $class;
+                }
+            }
+            build_descendent(self.WHAT);
+        } else {
+            # Canonical, the default (just whatever the meta-class says) with us
+            # on the start.
+            @classes = self.^mro(concretizations => $roles);
+        }
+
+        # Now we have classes, build method list.
+        my @methods;
+        for @classes -> $class {
+            if (!defined($include) || $include.ACCEPTS($class)) &&
+              (!defined($omit) || !$omit.ACCEPTS($class)) {
+                if $methods && !$class.HOW.archetypes.composable {
+                    @methods.push: $_ with $class.^method_table{$name}
+                }
+                if $submethods && nqp::can($class.HOW, 'submethod_table') {
+                    @methods.push: $_ with $class.^submethod_table{$name}
+                }
+            }
+        }
+
+        WalkList.new(|@methods).set_invocant(self)
+    }
+
+    multi method WALK(Str:D $name, *%n --> WalkList ) {
+        samewith(:$name, |%n)
+    }
+
+    # Various of the following dispatch methods are not called in situations
+    # where the compiler can rewrite them into a cheaper form.
+
+    # XXX TODO: Handle positional case.
+    method dispatch:<var>(::?CLASS \SELF: $var, |c) is raw {
+        # We put a `return` here to make sure we do the right thing if $var
+        # happens to be &fail.
+        return $var(SELF, |c)
+    }
+
+    method dispatch:<::>(::?CLASS \SELF: $name, Mu $type, |c) is raw {
+        my $meth;
+        my $ctx := nqp::ctxcaller(nqp::ctx());
+        if nqp::istype(self, $type) {
+            my $sym-found := 0;
+            my $caller-type;
+            repeat {
+                my $pad := nqp::ctxlexpad($ctx);
+                for <$?CONCRETIZATION $?CLASS> {
+                    if nqp::existskey($pad, $_) {
+                        $caller-type := nqp::atkey($pad, $_);
+                        $sym-found := 1;
+                        last;
+                    }
+                }
+                $ctx := nqp::ctxouterskipthunks($ctx);
+            } while $ctx && !$sym-found;
+            $meth = $caller-type.^find_method_qualified($type, $name)
+                if $sym-found && nqp::istype($caller-type, $type);
+            $meth = self.^find_method_qualified($type, $name) unless $meth;
+        }
+
+        unless nqp::defined($meth) {
+            X::Method::InvalidQualifier.new(
+                    method          => $name,
+                    invocant        => SELF,
+                    qualifier-type  => $type,
+            ).throw;
+        }
+
+        $meth(SELF, |c)
+    }
+
+    method dispatch:<!>(::?CLASS \SELF: \name, Mu \type, |c) is raw {
+        my $meth := type.^find_private_method(name);
+        $meth ??
+            $meth(SELF, |c) !!
+            X::Method::NotFound.new(
+              invocant => SELF,
+              method   => name,
+              typename => type.^name,
+              :private,
+              :in-class-call(nqp::eqaddr(nqp::what(SELF), nqp::getlexcaller('$?CLASS'))),
+            ).throw;
+    }
+
+    method dispatch:<.=>(\mutate: Str() $name, |c) is raw {
+        $/ := nqp::getlexcaller('$/');
+        mutate = mutate."$name"(|c)
+    }
+
+    method dispatch:<.?>(::?CLASS \SELF: Str() $name, |c) is raw {
+        nqp::can(SELF,$name) ??
+            SELF."$name"(|c) !!
+            Nil
+    }
+
+    method dispatch:<.+>(::?CLASS \SELF: \name, |c) {
+        SELF!batch-call(name, c, :throw);
+    }
+
+    method dispatch:<.*>(::?CLASS \SELF: \name, |c) {
+        SELF!batch-call(name, c)
+    }
+
+    method dispatch:<hyper>(::?CLASS \SELF: $nodality, Str $meth-name, |c) {
+        nqp::if(
+          nqp::if(
+            nqp::istype($nodality,Str),
+            nqp::if(
+              $nodality,
+                 nqp::can(List,$nodality)
+              && nqp::can(List.can($nodality ).AT-POS(0),'nodal'),
+                 nqp::can(List,$meth-name)
+              && nqp::can(List.can($meth-name).AT-POS(0),'nodal')),
+            nqp::can($nodality, 'nodal')),
+          nqp::if(
+            c,
+            HYPER( sub (\obj) is nodal { obj."$meth-name"(|c) }, SELF ),
+            HYPER( sub (\obj) is nodal { obj."$meth-name"()   }, SELF )),
+          nqp::if(
+            c,
+            HYPER( -> \obj { obj."$meth-name"(|c) }, SELF ),
+            HYPER( -> \obj { obj."$meth-name"(  ) }, SELF )))
+    }
 
     proto method say(|) {*}
     proto method put(|) {*}
@@ -752,98 +1065,9 @@ my class Mu { # declared in BOOTSTRAP
         $*OUT.print: self.Str
     }
 
-    method gistseen(Mu:D \SELF: $id, $gist, *%named) {
-        if nqp::not_i(nqp::isnull(nqp::getlexdyn('$*gistseen'))) {
-            my \sems := $*gistseen;
-            my str $WHICH = nqp::unbox_s(self.WHICH);
-            if nqp::existskey(sems,$WHICH) && nqp::atkey(sems,$WHICH) {
-                nqp::bindkey(sems,$WHICH,2);
-                "{$id}_{nqp::objectid(SELF)}";
-            }
-            else {
-                nqp::bindkey(sems,$WHICH,1);
-                my $result   := $gist(|%named);
-                my int $value = nqp::atkey(sems,$WHICH);
-                nqp::deletekey(sems,$WHICH);
-                $value == 2
-                  ?? "(\\{$id}_{nqp::objectid(SELF)} = $result)"
-                  !! $result
-            }
-        }
-        else {
-            my $*gistseen := nqp::hash("TOP",1);
-            SELF.gistseen($id,$gist,|%named)
-        }
-    }
-
-    proto method gist(|) {*}
-    multi method gist(Mu:U:) { '(' ~ self.^shortname ~ ')' }
-    multi method gist(Mu:D:) { self.raku }
-
-    method rakuseen(Mu:D \SELF: $id, $raku, *%named) {
-        my $sigil = nqp::iseq_s($id, 'Array') ?? '@'
-            !! nqp::iseq_s($id, 'Hash') ?? '%' !! '\\';
-        if nqp::not_i(nqp::isnull(nqp::getlexdyn('$*rakuseen'))) {
-            my \sems := $*rakuseen;
-            my str $WHICH = nqp::unbox_s(self.WHICH);
-            if nqp::existskey(sems,$WHICH) && nqp::atkey(sems,$WHICH) {
-                nqp::bindkey(sems,$WHICH,2);
-                $sigil x nqp::isne_s($sigil, '\\') ~ "{$id}_{nqp::objectid(SELF)}";
-            }
-            else {
-                nqp::bindkey(sems,$WHICH,1);
-                my $result := $raku(|%named);
-                my int $value = nqp::atkey(sems,$WHICH);
-                nqp::deletekey(sems,$WHICH);
-                $value == 2
-                  ?? nqp::iseq_s($sigil, '\\')
-                    ??  "(my {$sigil}{$id}_{nqp::objectid(SELF)} = $result)"
-                    !! "((my {$sigil}{$id}_{nqp::objectid(SELF)}) = $result)"
-                  !! $result
-            }
-        }
-        else {
-            my $*rakuseen := nqp::hash("TOP",1);
-            SELF.rakuseen($id,$raku,|%named)
-        }
-    }
-
-    proto method raku(|) {*}
-    multi method raku(Mu:U:) {
-        nqp::eqaddr(self.^find_method("perl").package,Mu)
-          ?? self.^name
-          !! self.perl
-    }
-    multi method raku(Mu:D:) {
-        nqp::eqaddr(self,IterationEnd)
-          ?? "IterationEnd"
-          !! nqp::iscont(self) # a Proxy object would have a conted `self`
-            ?? nqp::decont(self).raku
-            !! nqp::eqaddr((my $proto := self.^find_method("perl")).package,Mu)
-                 && $proto.dispatchees == 1
-              ?? self!default-raku
-              !! self.perl    # class has dedicated old-style .perl
-    }
-
-    method !default-raku() {
-        self.rakuseen: self.^name, {
-            if self.^attributes.map( {
-                nqp::concat(
-                  nqp::substr(.Str,2),
-                  nqp::concat(' => ',.get_value(self).raku)
-                ) if .is_built;
-            } ).join(', ') -> $attributes {
-                self.^name ~ '.new(' ~ $attributes ~ ')'
-            }
-            else {
-                self.^name ~ '.new'
-            }
-        }
-    }
-
     proto method DUMP(|) {*}  # is implementation-detail
-    multi method DUMP(Mu:U:) { self.raku }
-    multi method DUMP(Mu:D: :$indent-step = 4, :%ctx?) {
+    multi method DUMP(::?CLASS:U:) { self.raku }
+    multi method DUMP(::?CLASS:D: :$indent-step = 4, :%ctx?) {
         return DUMP(self, :$indent-step) unless %ctx;
 
         my Mu $attrs := nqp::list();
@@ -901,64 +1125,30 @@ my class Mu { # declared in BOOTSTRAP
         @pieces.DUMP-PIECES($before, :$indent-step);
     }
 
-    proto method isa(|) {*}
-    multi method isa(Mu \SELF: Mu $type --> Bool:D) {
+    proto method is-lazy (|) {*}
+    multi method is-lazy(::?CLASS: --> False) { }
+
+    proto method Numeric(|) {*}
+    multi method Numeric(::?CLASS:U \v:) {
+        warn "Use of uninitialized value of type {self.^name} in numeric context";
+        0
+    }
+    proto method Real(|) {*}
+    multi method Real(::?CLASS:U \v:) {
+        warn "Use of uninitialized value of type {self.^name} in numeric context";
+        0
+    }
+
+    proto method isa(::?CLASS: |) {*}
+    multi method isa(::?CLASS \SELF: Mu $type --> Bool:D) {
         nqp::hllbool(SELF.^isa($type.WHAT))
     }
-    multi method isa(Mu \SELF: Str:D $name --> Bool:D) {
+    multi method isa(::?CLASS \SELF: Str:D $name --> Bool:D) {
         return True if .^name eq $name for SELF.^mro;
         False
     }
 
-    method does(Mu \SELF: Mu $type) {
-        nqp::hllbool(nqp::istype(SELF, $type.WHAT))
-    }
-
-    method can(Mu \SELF: $name) {
-        SELF.^can($name)
-    }
-
-    proto method clone (|) {*}
-    multi method clone(Mu:U: *%twiddles) {
-        %twiddles and die 'Cannot set attribute values when cloning a type object';
-        self
-    }
-    multi method clone(Mu:D: *%twiddles) {
-        my $cloned := nqp::clone(self);
-        if %twiddles.elems {
-            for self.^attributes.flat -> $attr {
-                my $name    := $attr.name;
-                my $package := $attr.package;
-
-                nqp::bindattr($cloned, $package, $name,
-                  nqp::clone(nqp::getattr($cloned, $package, $name).VAR)
-                ) if nqp::attrinited(self, $package, $name)
-                    and nqp::not_i(nqp::objprimspec($attr.type));
-
-                my $acc_name := substr($name,2);
-                nqp::getattr($cloned, $package, $name) =
-                  nqp::decont(%twiddles{$acc_name})
-                  if $attr.has_accessor && %twiddles.EXISTS-KEY($acc_name);
-            }
-        }
-        else {
-            for self.^attributes.flat -> $attr {
-                unless nqp::objprimspec($attr.type) {
-                    my $name     := $attr.name;
-                    my $package  := $attr.package;
-                    if nqp::attrinited(self, $package, $name) {
-                        my $attr_val := nqp::getattr($cloned, $package, $name);
-                        nqp::bindattr($cloned,
-                          $package, $name, nqp::clone($attr_val.VAR))
-                            if nqp::iscont($attr_val);
-                    }
-                }
-            }
-        }
-        $cloned
-    }
-
-    method Capture() {
+    method Capture(::?CLASS:) {
         my $attrs := nqp::hash;
         for self.^attributes.flat -> $attr {
             if $attr.has_accessor {
@@ -972,199 +1162,12 @@ my class Mu { # declared in BOOTSTRAP
         $capture
     }
 
-    # Various of the following dispatch methods are not called in situations
-    # where the compiler can rewrite them into a cheaper form.
-
-    # XXX TODO: Handle positional case.
-    method dispatch:<var>(Mu \SELF: $var, |c) is raw {
-        # We put a `return` here to make sure we do the right thing if $var
-        # happens to be &fail.
-        return $var(SELF, |c)
+    method can(::?CLASS \SELF: $name) {
+        SELF.^can($name)
     }
 
-    method dispatch:<::>(Mu \SELF: $name, Mu $type, |c) is raw {
-        my $meth;
-        my $ctx := nqp::ctxcaller(nqp::ctx());
-        if nqp::istype(self, $type) {
-            my $sym-found := 0;
-            my $caller-type;
-            repeat {
-                my $pad := nqp::ctxlexpad($ctx);
-                for <$?CONCRETIZATION $?CLASS> {
-                    if nqp::existskey($pad, $_) {
-                        $caller-type := nqp::atkey($pad, $_);
-                        $sym-found := 1;
-                        last;
-                    }
-                }
-                $ctx := nqp::ctxouterskipthunks($ctx);
-            } while $ctx && !$sym-found;
-            $meth = $caller-type.^find_method_qualified($type, $name)
-                if $sym-found && nqp::istype($caller-type, $type);
-            $meth = self.^find_method_qualified($type, $name) unless $meth;
-        }
-
-        unless nqp::defined($meth) {
-            X::Method::InvalidQualifier.new(
-                    method          => $name,
-                    invocant        => SELF,
-                    qualifier-type  => $type,
-            ).throw;
-        }
-
-        $meth(SELF, |c)
-    }
-
-    method dispatch:<!>(Mu \SELF: \name, Mu \type, |c) is raw {
-        my $meth := type.^find_private_method(name);
-        $meth ??
-            $meth(SELF, |c) !!
-            X::Method::NotFound.new(
-              invocant => SELF,
-              method   => name,
-              typename => type.^name,
-              :private,
-              :in-class-call(nqp::eqaddr(nqp::what(SELF), nqp::getlexcaller('$?CLASS'))),
-            ).throw;
-    }
-
-    method dispatch:<.=>(\mutate: Str() $name, |c) is raw {
-        $/ := nqp::getlexcaller('$/');
-        mutate = mutate."$name"(|c)
-    }
-
-    method dispatch:<.?>(Mu \SELF: Str() $name, |c) is raw {
-        nqp::can(SELF,$name) ??
-            SELF."$name"(|c) !!
-            Nil
-    }
-
-    method !batch-call(Mu \SELF: \name, Capture:D \c, :$throw = False, :$reverse = False, :$roles = False) {
-        my @mro := SELF.^mro(concretizations => $roles);
-        my $results := nqp::create(IterationBuffer);
-        my int $mro_high = $reverse ?? 0 !! @mro.elems - 1;
-        my int $i = @mro.elems;
-        while nqp::isge_i(--$i, 0) {
-            my int $idx = nqp::abs_i($mro_high - $i);
-            my Mu \type-obj = @mro[$idx];
-            my $meth = (type-obj.^method_table){name} unless type-obj.HOW.archetypes.composable;
-            $meth = (type-obj.^submethod_table){name} if !$meth;
-            nqp::push($results,$meth(SELF, |c))    if $meth;
-        }
-        if $throw && $results.elems == 0 {
-            X::Method::NotFound.new(
-              invocant => SELF,
-              method   => name,
-              typename => SELF.^name,
-            ).throw;
-        }
-        $results.List
-    }
-
-    method dispatch:<.+>(Mu \SELF: \name, |c) {
-        SELF!batch-call(name, c, :throw);
-    }
-
-    method dispatch:<.*>(Mu \SELF: \name, |c) {
-        SELF!batch-call(name, c)
-    }
-
-    method dispatch:<hyper>(Mu \SELF: $nodality, Str $meth-name, |c) {
-        nqp::if(
-          nqp::if(
-            nqp::istype($nodality,Str),
-            nqp::if(
-              $nodality,
-                 nqp::can(List,$nodality)
-              && nqp::can(List.can($nodality ).AT-POS(0),'nodal'),
-                 nqp::can(List,$meth-name)
-              && nqp::can(List.can($meth-name).AT-POS(0),'nodal')),
-            nqp::can($nodality, 'nodal')),
-          nqp::if(
-            c,
-            HYPER( sub (\obj) is nodal { obj."$meth-name"(|c) }, SELF ),
-            HYPER( sub (\obj) is nodal { obj."$meth-name"()   }, SELF )),
-          nqp::if(
-            c,
-            HYPER( -> \obj { obj."$meth-name"(|c) }, SELF ),
-            HYPER( -> \obj { obj."$meth-name"(  ) }, SELF )))
-    }
-
-    proto method WALK(|) {*}  # is implementation-detail
-    multi method WALK(:$name!, :$canonical, :$ascendant, :$descendant, :$preorder, :$breadth,
-                :$super, :$omit, :$include, :$roles, :$submethods = True, :$methods = True
-                --> WalkList)
-    {
-        # First, build list of classes in the order we'll need them.
-
-        my sub maybe-with-roles(Mu \typeobj) {
-            flat typeobj.^parents(:local),
-                 ($roles ?? typeobj.^roles(:local, :transitive, :mro) !! ())
-        }
-
-        my @classes;
-        if $super {
-            @classes = maybe-with-roles(self)
-        }
-        elsif $breadth {
-            my @search_list = self.WHAT;
-            while @search_list {
-                append @classes, @search_list;
-                my @new_search_list;
-                for @search_list -> $current {
-                    for maybe-with-roles($current) -> $next {
-                        unless @new_search_list.grep({ $^c.WHAT =:= $next.WHAT }) {
-                            push @new_search_list, $next;
-                        }
-                    }
-                }
-                @search_list = @new_search_list;
-            }
-        } elsif $ascendant | $preorder {
-            sub build_ascendent(Mu $class) {
-                unless @classes.grep({ $^c.WHAT =:= $class.WHAT }) {
-                    push @classes, $class;
-                    for maybe-with-roles($class) {
-                        build_ascendent($^parent);
-                    }
-                }
-            }
-            build_ascendent(self.WHAT);
-        } elsif $descendant {
-            sub build_descendent(Mu $class) {
-                unless @classes.grep({ $^c.WHAT =:= $class.WHAT }) {
-                    for maybe-with-roles($class) {
-                        build_descendent($^parent);
-                    }
-                    push @classes, $class;
-                }
-            }
-            build_descendent(self.WHAT);
-        } else {
-            # Canonical, the default (just whatever the meta-class says) with us
-            # on the start.
-            @classes = self.^mro(concretizations => $roles);
-        }
-
-        # Now we have classes, build method list.
-        my @methods;
-        for @classes -> $class {
-            if (!defined($include) || $include.ACCEPTS($class)) &&
-              (!defined($omit) || !$omit.ACCEPTS($class)) {
-                if $methods && !$class.HOW.archetypes.composable {
-                    @methods.push: $_ with $class.^method_table{$name}
-                }
-                if $submethods && nqp::can($class.HOW, 'submethod_table') {
-                    @methods.push: $_ with $class.^submethod_table{$name}
-                }
-            }
-        }
-
-        WalkList.new(|@methods).set_invocant(self)
-    }
-
-    multi method WALK(Str:D $name, *%n --> WalkList ) {
-        samewith(:$name, |%n)
+    method does(::?CLASS \SELF: Mu $type) {
+        nqp::hllbool(nqp::istype(SELF, $type.WHAT))
     }
 }
 
@@ -1173,12 +1176,24 @@ proto sub defined(Mu, *%) is pure {*}
 multi sub defined(Mu \x) { x.defined }
 
 proto sub infix:<~~>(Mu, Mu, *%) {*}
+multi sub infix:<~~>(Junction:D \topic, Mu \matcher) {
+    if %*ENV<RAKUDO_DEBUG> {
+        note "& ~~ Junction candidate";
+    }
+    matcher.ACCEPTS(topic).Bool;
+}
 multi sub infix:<~~>(Mu \topic, Mu \matcher) {
+    if %*ENV<RAKUDO_DEBUG> {
+        note "& ~~ Mu candidate";
+    }
     matcher.ACCEPTS(topic).Bool;
 }
 
 proto sub infix:<!~~>(Mu, Mu, *%) {*}
 multi sub infix:<!~~>(Mu \topic, Mu \matcher) {
+    matcher.ACCEPTS(topic).not;
+}
+multi sub infix:<!~~>(Junction:D \topic, Mu \matcher) {
     matcher.ACCEPTS(topic).not;
 }
 

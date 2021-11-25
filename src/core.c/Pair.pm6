@@ -11,6 +11,12 @@ my class Pair does Associative {
         nqp::bindattr(p,Pair,'$!value',value);
         p
     }
+    multi method new(Pair: Str:D $key, Junction:D \value) {
+        my \p := nqp::p6bindattrinvres(
+          nqp::create(self),Pair,'$!key',$key);
+        nqp::bindattr(p,Pair,'$!value',value);
+        p
+    }
     multi method new(Pair: Mu \key, Mu \value) {
         my \p := nqp::p6bindattrinvres(
           nqp::create(self),Pair,'$!key',nqp::decont(key));

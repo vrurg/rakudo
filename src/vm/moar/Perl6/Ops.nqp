@@ -453,12 +453,12 @@ sub decontrv_op($version) {
 $ops.add_hll_op('Raku', 'p6decontrv', decontrv_op(''));
 $ops.add_hll_op('Raku', 'p6decontrv_6c', decontrv_op('6c'));
 
-$ops.add_hll_op('Raku', 'p6setautothreader', :inlinable, -> $qastcomp, $op {
-    $qastcomp.as_mast(
-        QAST::Op.new( :op('callmethod'), :name('set_autothreader'),
-            QAST::WVal.new( :value($Binder) ),
-            $op[0]), :want($MVM_reg_obj));
-});
+#$ops.add_hll_op('Raku', 'p6setautothreader', :inlinable, -> $qastcomp, $op {
+#    $qastcomp.as_mast(
+#        QAST::Op.new( :op('callmethod'), :name('set_autothreader'),
+#            QAST::WVal.new( :value($Binder) ),
+#            $op[0]), :want($MVM_reg_obj));
+#});
 $ops.add_hll_op('Raku', 'p6configposbindfailover', :inlinable, -> $qastcomp, $op {
     $qastcomp.as_mast(
         QAST::Op.new( :op('callmethod'), :name('set_pos_bind_failover'),
