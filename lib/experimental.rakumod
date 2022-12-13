@@ -261,4 +261,10 @@ package EXPORT::will-complain {
     OUR::{'&trait_mod:<will>'} := &trait_mod:<will>;
 }
 
+package EXPORT::rakuast {
+    OUR::<RakuAST> := nqp::gethllsym('Raku', 'RakuAST');
+    # Make deparsing possible with the .DEPARSE method from NQP
+    nqp::bindhllsym('Raku', 'DEPARSE', do require ::('RakuAST::Deparse'));
+}
+
 # vim: expandtab shiftwidth=4

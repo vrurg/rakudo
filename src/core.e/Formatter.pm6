@@ -99,6 +99,7 @@ grammar Formatter::Syntax {
 }
 
 class Formatter {
+    my constant RakuAST := nqp::gethllsym('Raku', 'RakuAST');
 
     # class to be used with Grammar to turn format into array of pieces of code
     class Actions {
@@ -446,7 +447,7 @@ class Formatter {
 
             my $size = size($/);
             my $ast  = ast-call-sub("unsigned-int", parameter($/));
-            
+
             # handle zero padding / left / right justification
             if $size {
                 $ast = ast-call-sub(

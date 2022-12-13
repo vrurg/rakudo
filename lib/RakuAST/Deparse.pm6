@@ -527,7 +527,7 @@ class RakuAST::Deparse {
     }
 
     multi method deparse(RakuAST::Postcircumfix::LiteralHashIndex:D $ast --> str) {
-        self.deparse($ast.index)  
+        self.deparse($ast.index)
     }
 
     multi method deparse(RakuAST::Postfix:D $ast --> str) {

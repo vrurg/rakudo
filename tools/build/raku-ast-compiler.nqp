@@ -299,7 +299,8 @@ sub MAIN(*@files) {
             emit-package($_);
         }
     }
-    say('    EXPORT::DEFAULT.WHO<RakuAST> := RakuAST;');
+    # say('    EXPORT::DEFAULT.WHO<RakuAST> := RakuAST;');
+    say(q<    nqp::bindhllsym('Raku', 'RakuAST', RakuAST);>);
     say('    EXPORT::DEFAULT.WHO<OperatorProperties> := OperatorProperties;');
     say('}');
 }
