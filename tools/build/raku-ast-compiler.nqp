@@ -300,9 +300,9 @@ sub MAIN(*@files) {
         }
     }
     # say('    EXPORT::DEFAULT.WHO<RakuAST> := RakuAST;');
-    say(q<    nqp::bindhllsym('Raku', 'RakuAST', RakuAST);>);
     say('    EXPORT::DEFAULT.WHO<OperatorProperties> := OperatorProperties;');
     say('}');
+    say(q<nqp::bindhllsym('Raku', 'RakuAST', RakuAST);>);
 }
 
 # Code-gen

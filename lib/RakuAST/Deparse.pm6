@@ -1,3 +1,4 @@
+use nqp;
 # This is the default class handling deparsing (aka, converting a given
 # RakuAST::Node object into Raku source code).  It allows for all sorts
 # of customization, and can be subclassed for further optimizations.
@@ -5,6 +6,17 @@
 # Apart from the .new method, which expects named parameters, each public
 # method expects an instance if a subclass of a RakuAST::Node as the first
 # positional parameter.
+
+BEGIN my package PseudoRakuAST {
+    package EXPORT {
+        package DEFAULT {
+            note "Setup export of RakuAST to ", nqp::gethllsym('Raku', 'RakuAST').WHICH;
+            OUR::<RakuAST> := nqp::gethllsym('Raku', 'RakuAST');
+        }
+    }
+}
+
+import PseudoRakuAST;
 
 class RakuAST::Deparse {
     has str $.before-comma = ' ';
