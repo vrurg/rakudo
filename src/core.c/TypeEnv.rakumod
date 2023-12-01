@@ -26,9 +26,6 @@ my class TypeEnv { # declared in BOOTSTRAP
 
     proto method instantiate(::?CLASS:D: Mu --> Mu) is raw {*}
     multi method instantiate(::?CLASS:D: ContainerDescriptor:D \descriptor) is raw {
-        if nqp::getenvhash<RAKUDO_DEBUG> {
-            note "+++ instantiating container descriptor ", descriptor.name;
-        }
         descriptor.instantiate_generic(nqp::getattr(self, Map, '$!storage'))
     }
     multi method instantiate(::?CLASS:D: Attribute:D \attr) is raw {
