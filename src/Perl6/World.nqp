@@ -1905,6 +1905,45 @@ class Perl6::World is HLL::World {
         @value_type[0] := nqp::decont(@value_type[0]) if @value_type;
         @cont_type[0] := nqp::decont(@cont_type[0]) if @cont_type;
 
+        my sub containter-init-ast($cont_type) {
+            my $new-ast;
+            my $is-generic := 0;
+            if $*SCOPE eq 'has' && $cont_type.HOW.archetypes.generic {
+                $is-generic := 1;
+                if (my $trait := $*IS-TYPE-TRAIT) && $trait.match()<circumfix> -> $circumfix {
+                    # When it is `is Type[Param1, ...]` then the parameterization of a generic is better be done
+                    # once when body block is being ran. For this we install a lexical to which the result of
+                    # parameterization is bound.
+                    my $BLOCK := $*CURPAD // $*W.cur_lexpad();
+                    my $ins_lexical := QAST::Node.unique('__type_ins_');
+                    my $params-ast := QAST::Op.new( :op<callmethod>, :name<FLATTENABLE_LIST>,
+                                                    $circumfix[0].ast.shallow_clone );
+                    $params-ast.flat(1);
+                    my $type-ast := QAST::WVal.new( :value($trait.args[0]) );
+                    $BLOCK[0].push(
+                        QAST::Op.new(
+                            :op<bind>,
+                            QAST::Var.new( :name($ins_lexical), :scope<lexical>, :decl<var> ),
+                            QAST::Op.new(
+                                :op<callmethod>, :name<parameterize>,
+                                QAST::Op.new( :op<how>, $type-ast ),
+                                $type-ast, $params-ast )
+                        )
+                    );
+                    $new-ast := QAST::Var.new( :name($ins_lexical), :scope<lexical> );
+                }
+                else {
+                    $new-ast := QAST::Var.new( :name($cont_type.HOW.name($cont_type)), :scope<lexical> );
+                }
+            }
+            else {
+                $new-ast := QAST::WVal.new( :value($cont_type) );
+            }
+            my $ast := QAST::Op.new( :op('callmethod'), :name('new'), $new-ast );
+            $ast.annotate('is-generic', $is-generic);
+            $ast
+        }
+
         for @post -> $con {
             @value_type[0] := self.create_subset(self.resolve_mo($/, 'subset'),
                 @value_type ?? @value_type[0] !! self.find_single_symbol_in_setting('Mu'),
